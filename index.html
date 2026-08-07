@@ -16,6 +16,7 @@
     --plan:#2360a0; --plan-soft:#e2ecf7;
     --idle:#6f8085; --idle-soft:#eceff0;
     --late:#a8332a; --late-soft:#f9e5e3;
+    --pub:#c0271d; --pub-soft:#fbe7e4;
     --shadow:0 1px 2px rgba(20,29,33,.05), 0 8px 24px -12px rgba(20,29,33,.18);
     --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
     --jp:"Hiragino Kaku Gothic ProN","Yu Gothic Medium","Yu Gothic","Noto Sans JP","Meiryo",sans-serif;
@@ -31,6 +32,7 @@
       --plan:#6ba4dd; --plan-soft:#132435;
       --idle:#8b9fa3; --idle-soft:#1d2628;
       --late:#e0736a; --late-soft:#341917;
+      --pub:#ff8074; --pub-soft:#3a1512;
       --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
     }
   }
@@ -44,6 +46,7 @@
     --plan:#2360a0; --plan-soft:#e2ecf7;
     --idle:#6f8085; --idle-soft:#eceff0;
     --late:#a8332a; --late-soft:#f9e5e3;
+    --pub:#c0271d; --pub-soft:#fbe7e4;
     --shadow:0 1px 2px rgba(20,29,33,.05), 0 8px 24px -12px rgba(20,29,33,.18);
   }
   :root[data-theme="dark"]{
@@ -56,6 +59,7 @@
     --plan:#6ba4dd; --plan-soft:#132435;
     --idle:#8b9fa3; --idle-soft:#1d2628;
     --late:#e0736a; --late-soft:#341917;
+      --pub:#ff8074; --pub-soft:#3a1512;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
   }
 
@@ -91,6 +95,8 @@
   .tile.fix{background:var(--fix-soft);border-color:var(--fix)}
   .tile.fix .big,.tile.fix .lab{color:var(--fix)}
   .tile.key .big{color:var(--accent)}
+  .tile.pub{border-color:var(--pub)}
+  .tile.pub .big,.tile.pub .lab{color:var(--pub)}
 
   .meter{height:8px;border-radius:99px;background:var(--line-soft);
          overflow:hidden;display:flex;margin-top:4px}
@@ -103,7 +109,7 @@
   h2{font-size:18px}
   .shead p{margin:0;font-size:13px;color:var(--ink-3);max-width:62ch}
   .legend b{font-weight:700;margin-left:11px;white-space:nowrap}
-  .lg-done{color:var(--ok)} .lg-fix{color:var(--fix)}
+  .lg-done{color:var(--ok)} .lg-fix{color:var(--fix)} .lg-pub{color:var(--pub)}
   .lg-late{color:var(--late)} .lg-soon{color:var(--work)}
 
   /* ---------- timeline ---------- */
@@ -130,6 +136,11 @@
             font-size:12px;color:var(--ink-3)}
   .ev.past .ttl{color:var(--ink-3);font-weight:500}
   .ev[data-s="完了"] .ttl::before{content:"✓ ";color:var(--ok);font-weight:700}
+  /* 公開（本番リリース）は赤で強調 */
+  .ev[data-pub="1"] .ttl{color:var(--pub);font-weight:700}
+  .ev[data-pub="1"] .when{color:var(--pub)}
+  .ev[data-pub="1"] .dot{background:var(--pub);border-color:var(--pub);
+       box-shadow:0 0 0 4px var(--pub-soft)}
   .today{display:grid;grid-template-columns:104px 30px 1fr;gap:0 14px;
          align-items:center;padding:6px 0}
   .today .when{font-family:var(--mono);font-size:12px;text-align:right;
@@ -218,6 +229,8 @@
   tr[data-u="done"] td.nm{color:var(--ink-3)}
   tr[data-u="done"] td.due{color:var(--ok)}
   .chk{color:var(--ok);font-weight:700;margin-right:3px}
+  tr[data-pub="1"] td.nm{color:var(--pub);font-weight:700}
+  tr[data-pub="1"] td.id{border-left-color:var(--pub)}
   td.due{font-family:var(--mono);font-variant-numeric:tabular-nums;
          font-size:12.5px;white-space:nowrap}
   td.due .d{display:block;font-size:11px;color:var(--ink-3)}
@@ -277,13 +290,14 @@
 
   <section>
     <div class="shead"><h2>タスク一覧</h2>
-      <p class="legend">左端の色：<b class="lg-done">■ 完了</b><b class="lg-fix">■ 日程確定</b><b class="lg-late">■ 期限超過</b><b class="lg-soon">■ 2週間以内</b></p></div>
+      <p class="legend"><b class="lg-pub">■ 公開（本番リリース）</b>｜左端の色：<b class="lg-done">■ 完了</b><b class="lg-fix">■ 日程確定</b><b class="lg-late">■ 期限超過</b><b class="lg-soon">■ 2週間以内</b></p></div>
     <div class="filters">
       <div class="frow"><span class="flab">担当</span><span id="f-who"></span></div>
       <div class="frow"><span class="flab">ステータス</span><span id="f-st"></span></div>
       <div class="frow"><span class="flab">カテゴリ</span><span id="f-cat"></span></div>
+      <div class="frow"><span class="flab">対象</span><span id="f-tgt"></span></div>
       <div class="frow"><span class="flab">検索</span>
-        <input class="srch" id="q" type="search" placeholder="タスク名・備考で検索" aria-label="タスクを検索">
+        <input class="srch" id="q" type="search" placeholder="タスク名・対象・備考で検索" aria-label="タスクを検索">
         <span class="count" id="cnt"></span></div>
     </div>
     <div class="tblwrap">
@@ -316,6 +330,8 @@ const d0 = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m
 const days = (a,b) => Math.round((d0(a) - new Date(b.getFullYear(),b.getMonth(),b.getDate()))/864e5);
 const fmt = s => { const d = d0(s); return `${d.getMonth()+1}/${String(d.getDate()).padStart(2,'0')}`; };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const isPub = n => n.includes('公開：') || n.endsWith('公開');
+const PUB_TASKS = new Set(['T-27','T-29']);
 const whoCls = w => w === 'ITLINE' ? 'p-who-it' : (w === 'グラビス様' ? 'p-who-gl' : 'p-who-bo');
 
 /* ---------- tiles ---------- */
@@ -336,12 +352,12 @@ document.getElementById('tiles').innerHTML = `
     <span class="big">8/17</span>
     <span class="cap">メール・ドメイン設定テスト<br>（月）　${dd(dMail)}</span>
   </div>
-  <div class="tile key">
+  <div class="tile pub">
     <span class="lab">8月末 公開</span>
     <span class="big">${dd(dPub)}</span>
     <span class="cap">HD・GA・採用サイト 本番公開<br>8月31日</span>
   </div>
-  <div class="tile key">
+  <div class="tile pub">
     <span class="lab">9月末 公開</span>
     <span class="big">${dd(dFin)}</span>
     <span class="cap">新コンテンツ・新デザイン公開<br>9月30日</span>
@@ -370,7 +386,7 @@ const todayRow = `<div class="today"><span class="when">TODAY</span>
 S.forEach(e => {
   if (!marked && days(e.end, TODAY) > 0) { tl += todayRow; marked = true; }
   const past = days(e.end, TODAY) < 0;
-  tl += `<div class="ev${past?' past':''}" data-s="${esc(e.status)}" data-f="${e.fixed?1:0}">
+  tl += `<div class="ev${past?' past':''}" data-s="${esc(e.status)}" data-f="${e.fixed?1:0}" data-pub="${isPub(e.name)?1:0}">
     <span class="when">${esc(e.disp)}</span>
     <span class="dotwrap"><span class="dot"></span></span>
     <span class="body">
@@ -416,7 +432,7 @@ document.getElementById('pgrid').innerHTML = `
     }).join('')}</div>`;
 
 /* ---------- filters + table ---------- */
-const F = { who:'すべて', st:'すべて', cat:'すべて', q:'', sort:'due', dir:1 };
+const F = { who:'すべて', st:'すべて', cat:'すべて', tgt:'すべて', q:'', sort:'due', dir:1 };
 const mkChips = (elId, key, opts) => {
   document.getElementById(elId).innerHTML = opts.map(o =>
     `<button class="chip" data-k="${key}" data-v="${esc(o)}" aria-pressed="${o==='すべて'}">${esc(o)}</button>`).join('');
@@ -424,6 +440,11 @@ const mkChips = (elId, key, opts) => {
 mkChips('f-who','who',['すべて',...uniq('who')]);
 mkChips('f-st','st',['すべて','未着手','対応中','予定','完了']);
 mkChips('f-cat','cat',['すべて',...uniq('cat')]);
+// 対象は「HD・GA・採用」のような複合値のため、部分一致で絞り込む。
+// 「全サイト」「全社」は横断タスクなのでどの対象を選んでも残す。
+const SITES = ['HD','GA','採用','アンビライズ','PTM'];
+const ALL_SITE = t => t.target === '全サイト' || t.target === '全社';
+mkChips('f-tgt','tgt',['すべて',...SITES]);
 
 document.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
   const k = b.dataset.k;
@@ -445,6 +466,7 @@ function render(){
     (F.who==='すべて'||t.who===F.who) &&
     (F.st==='すべて'||t.status===F.st) &&
     (F.cat==='すべて'||t.cat===F.cat) &&
+    (F.tgt==='すべて'||ALL_SITE(t)||t.target.includes(F.tgt)) &&
     (!F.q || (t.name+t.note+t.target+t.id).toLowerCase().includes(F.q.toLowerCase())));
 
   rows.sort((a,b) => {
@@ -465,7 +487,7 @@ function render(){
     else if (n < 0) u = 'late';
     else if (n <= 14) u = 'soon';
     const rel = t.status==='完了' ? '完了済' : (n<0 ? `${-n}日超過` : (n===0?'本日':`あと${n}日`));
-    return `<tr data-u="${u}">
+    return `<tr data-u="${u}" data-pub="${PUB_TASKS.has(t.id)?1:0}">
       <td class="id">${u==='done'?'<span class="chk">✓</span>':''}${esc(t.id)}</td>
       <td class="nm">${esc(t.name)}${t.note?`<span class="note${t.note.startsWith('★')?' hi':''}">${esc(t.note)}</span>`:''}</td>
       <td><span class="pill ${whoCls(t.who)}">${esc(t.who)}</span></td>
