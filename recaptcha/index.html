@@ -140,6 +140,12 @@
   .key .mask{color:var(--ink-3);letter-spacing:.02em}
   .key .kd{font-size:12.5px;color:var(--ink-3)}
 
+  .secnote{margin:0 0 4px;font-size:14px;line-height:1.8;
+           background:var(--accent-soft);border:1px solid var(--accent);
+           border-radius:10px;padding:14px 18px}
+  .secnote b:first-child{display:block;color:var(--accent-ink);font-size:12px;
+           letter-spacing:.08em;margin-bottom:4px}
+
   /* ---------- キー送信フォーム ---------- */
   #keyform{display:flex;flex-direction:column;gap:14px;margin:14px 0 12px;
            background:var(--paper);border:1px solid var(--line);
@@ -269,6 +275,12 @@
         <h3>下記フォームから ITLINE へお送りいただく</h3>
         <p>入力して「メールで送信する」を押すと、宛先・件名・本文が入力済みの状態で
           お使いのメールソフトが立ち上がります。内容をご確認のうえ送信してください。</p>
+        <p class="secnote"><b>ひと手間おかけする理由</b>
+          シークレットキーは非公開の情報のため、<b>外部のフォーム送信サービスを経由させない設計</b>に
+          しております。このページは入力内容からメール本文を組み立てるだけで、どこかへ自動的に
+          送信したり、サーバーに保存したりすることは一切ありません。
+          お手数ではございますが、セキュリティ上あえて、お客様ご自身のメールソフトから
+          直接お送りいただく形にしております。</p>
         <form id="keyform" novalidate>
           <div class="field">
             <label for="f-name">貴社名・ご担当者名 <span class="req">必須</span></label>
@@ -311,9 +323,6 @@
           </div>
           <p class="formmsg" id="formmsg" role="status" aria-live="polite"></p>
         </form>
-        <p class="sub-note"><b>入力内容が外部のサービスに保存されることはありません。</b>
-          お使いのメールソフトを起動して送信する仕組みのため、キーがこのページから
-          どこかへ自動的に送られることはありません。</p>
         <p class="sub-note">メールソフトが立ち上がらない場合は「内容をコピーする」を押し、
           Teams のプライベートチャットに貼り付けてお送りください。
           <b>シークレットキーは非公開の情報です。</b>公開チャネルへの投稿はお控えください。</p>
