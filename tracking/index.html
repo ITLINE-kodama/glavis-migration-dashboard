@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow,noarchive">
-<title>計測タグ 確認マニュアル｜GLAVISグループ サイト移行プロジェクト</title>
+<title>計測タグの引き継ぎについて｜GLAVISグループ サイト移行プロジェクト</title>
 <style>
   :root{
     --ink:#14263d; --ink-2:#3e5570; --ink-3:#5c7085;
@@ -194,34 +194,56 @@
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
   .lead2{margin:0;font-size:14.5px;color:var(--ink-2);max-width:66ch}
-  .note.warn p{margin:0}
+  .tagtable{display:flex;flex-direction:column;border:1px solid var(--line);
+            border-radius:9px;overflow:hidden;margin:0 0 6px}
+  .tagtable .tr{display:grid;grid-template-columns:1.1fr 2fr;gap:10px;
+                padding:9px 14px;font-size:13.5px;align-items:center;
+                border-bottom:1px solid var(--line-soft);background:var(--card)}
+  .tagtable .tr:last-child{border-bottom:0}
+  .tagtable .th3{background:var(--accent-soft);font-weight:700;font-size:11.5px;
+                 letter-spacing:.06em;color:var(--accent-ink)}
+
+  .opts{display:flex;flex-direction:column;gap:14px}
+  .opt-card{background:var(--card);border:1px solid var(--line);border-radius:12px;
+            padding:20px 24px;box-shadow:var(--shadow);
+            display:flex;flex-direction:column;gap:10px}
+  .opt-card.best{border-color:var(--accent);background:var(--accent-soft)}
+  .opt-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .badge{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+         flex:none;font-family:var(--mono);font-size:14px;font-weight:700;
+         background:var(--idle-soft);color:var(--ink-2)}
+  .opt-card.best .badge{background:linear-gradient(135deg,var(--brand),var(--brand-2));
+         color:#04252a}
+  .opt-title{font-size:16.5px;font-weight:700}
+  .opt-time{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:700;
+            color:var(--ink-3);white-space:nowrap}
+  .opt-card p{margin:0}
+  ol.mini{margin:0;padding-left:1.35em;display:flex;flex-direction:column;gap:5px;
+          font-size:14px}
+
   #tagform{display:flex;flex-direction:column;gap:16px;margin:4px 0 12px;
            background:var(--paper);border:1px solid var(--line);
            border-radius:10px;padding:20px}
   .siteset{border:1px solid var(--line);border-radius:10px;padding:14px 18px 18px;
-           margin:0;background:var(--card);display:flex;flex-direction:column;gap:12px}
+           margin:0;background:var(--card);display:flex;flex-direction:column;gap:12px;
+           min-width:0}
   .siteset.common{border-color:var(--accent)}
   .siteset legend{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
                   padding:0 8px;margin-left:-4px}
-  .sname{font-size:14px;font-weight:700;color:var(--ink)}
+  .sname{font-size:14px;font-weight:700;color:var(--ink);display:inline-flex;
+         align-items:center;gap:8px}
   .sdom{font-size:12px}
-  .tagtable{display:flex;flex-direction:column;border:1px solid var(--line);
-            border-radius:9px;overflow:hidden;margin:0 0 10px}
-  .tagtable .tr3{grid-template-columns:1.1fr 2fr}
-  .tagtable .th3{grid-template-columns:1.1fr 2fr;background:var(--accent-soft);
-                 font-weight:700;font-size:11.5px;letter-spacing:.06em;color:var(--accent-ink)}
-  .tagtable .tr{display:grid;grid-template-columns:1.5fr 1.4fr 1.1fr;gap:10px;
-                padding:9px 14px;font-size:13.5px;align-items:center;
-                border-bottom:1px solid var(--line-soft);background:var(--card)}
-  .tagtable .tr:last-child{border-bottom:0}
-  .tagtable .th{background:var(--accent-soft);font-weight:700;font-size:11.5px;
-                letter-spacing:.06em;color:var(--accent-ink)}
-  .tagtable .ex2{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+  .dom{font-size:11.5px;font-weight:400}
+  .radio{display:flex;gap:10px;align-items:flex-start;font-size:14px;
+         line-height:1.7;cursor:pointer}
+  .radio input{margin-top:6px;flex:none;width:16px;height:16px;accent-color:var(--accent)}
+  .radio input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .radio b{font-weight:700}
   @media (max-width:620px){
-    .tagtable .tr{grid-template-columns:1fr;gap:2px}
-    .tagtable .th,.tagtable .th3{display:none}
-    .tagtable .tr3{grid-template-columns:1fr}
-    .tagtable .tr{padding:11px 14px}
+    .tagtable .tr{grid-template-columns:1fr;gap:2px;padding:11px 14px}
+    .tagtable .th3{display:none}
+    .opt-card{padding:18px}
+    .opt-time{margin-left:0}
   }
 </style>
 </head>
@@ -230,36 +252,23 @@
   <header>
     <a class="back" href="../">← 進捗ダッシュボードへ戻る</a>
     <h1><span class="sub">GLAVIS GROUP / SITE MIGRATION</span>
-      計測タグ 確認マニュアル</h1>
-    <p class="lead">移行後のサイトに、現在お使いのアクセス解析・広告計測のタグを引き継ぎます。
-      現行サイトに設置されているタグをご確認のうえ、ページ下部のフォームからお送りください。</p>
+      計測タグの引き継ぎについて</h1>
+    <p class="lead">移行後のサイトでも、現在のアクセス解析と広告計測をそのまま継続できるようにいたします。
+      現行サイトは ITLINE にて調査済みですので、<b>ご対応いただくのは 1 点のみ</b>です。</p>
     <div class="facts">
       <div class="fact"><span class="l">ご対応いただく方</span><span class="v">グラビス様</span></div>
       <div class="fact"><span class="l">期限</span><span class="v">2026年8月21日</span></div>
-      <div class="fact"><span class="l">所要時間</span><span class="v">10分程度</span></div>
-      <div class="fact"><span class="l">対象</span><span class="v">HD・GA・採用</span></div>
+      <div class="fact"><span class="l">ご対応いただくこと</span><span class="v">1点のみ</span></div>
     </div>
   </header>
 
-  <section class="note warn">
-    <h2>なぜ必要か</h2>
-    <p>タグが引き継がれないまま公開すると、<b>公開日を境にアクセスデータが途切れ、
-      Web 広告のコンバージョン計測も停止します。</b>
-      過去との比較ができなくなり、広告の効果測定にも影響が出ますので、
-      公開前の受領をお願いしております。</p>
-    <p class="sub-note">全部は分からない、という状態でも問題ありません。
-      分かる範囲でお送りいただければ、残りは ITLINE 側でも現行サイトを確認いたします。</p>
-  </section>
-
-  <section class="note tip">
-    <h2>ソースに <code>G-</code> が見つからない理由</h2>
-    <p>ITLINE にて 3 サイトの HTML ソースを確認したところ、<b>いずれも Google タグマネージャー（GTM）
-      経由でタグを読み込む構成</b>になっておりました。この場合、GA4 の測定 ID は
-      <b>GTM のコンテナの中で管理されている</b>ため、サイトの HTML ソースには
-      <code>G-</code> が現れません。設置されていないわけではございませんのでご安心ください。</p>
-    <p>ソースから確認できたコンテナは下記のとおりです。</p>
+  <section class="note">
+    <h2>ITLINE にて確認済みの内容</h2>
+    <p>3 サイトの HTML ソースを確認したところ、いずれも
+      <b>Google タグマネージャー（GTM）経由</b>でタグを読み込む構成でした。
+      読み込まれているコンテナは下記のとおりです。</p>
     <div class="tagtable">
-      <div class="tr th3"><span>サイト</span><span>読み込まれている GTM コンテナ</span></div>
+      <div class="tr th3"><span>サイト</span><span>GTM コンテナ</span></div>
       <div class="tr tr3"><span>ホールディングス</span>
         <span><code>GTM-MTQ27JHK</code>　<code>GTM-PR2QHTL</code></span></div>
       <div class="tr tr3"><span>グラビス・アーキテクツ</span>
@@ -268,83 +277,66 @@
         <span><code>GTM-MTQ27JHK</code>　<code>GTM-PR2QHTL</code></span></div>
     </div>
     <p class="sub-note"><code>GTM-MTQ27JHK</code> は 3 サイト共通で読み込まれており、
-      グループ全体用のコンテナと思われます。各サイト固有のコンテナがもう 1 つ入っている構成です。</p>
-    <p><b>そのため、ご対応いただきたいのは次のいずれかです。</b></p>
-    <ul>
-      <li><b>GTM の管理画面へ ITLINE を招待いただく（最も早く確実です）</b><br>
-        コンテナごとの権限付与で結構です。招待先のアカウントは別途ご案内いたします。
-        下のフォームの「連絡事項」に、その旨をご記入ください。</li>
-      <li><b>GTM の中を確認して、GA4 測定 ID と広告タグをお知らせいただく</b><br>
-        手順は下記「方法 2」をご覧ください。</li>
-    </ul>
+      グループ全体用のコンテナと思われます。コンテナ ID は判明しておりますので、
+      これらをお調べいただく必要はございません。</p>
+    <p><b>GA4 の測定 ID や広告のコンバージョンタグは、この GTM コンテナの中で管理されています。</b>
+      サイトの HTML ソースには現れないため、中身を確認させていただく必要がございます。</p>
   </section>
 
   <section>
-    <h2>確認方法</h2>
-    <p class="lead2">今回の 3 サイトは GTM 経由の構成のため、<b>方法 2（タグマネージャーの中を確認する）が
-      GA4 測定 ID への近道</b>です。方法 1 はサイトに直接埋め込まれたタグの確認に使えます。</p>
-    <ol class="steps">
-      <li>
-        <h3>サイトのソースから探す</h3>
-        <p>対象サイトをブラウザで開き、<code>Ctrl</code> + <code>U</code>
-          （Mac は <code>⌘</code> + <code>option</code> + <code>U</code>）でソースを表示します。
-          続いて <code>Ctrl</code> + <code>F</code> で下記の文字列を検索してください。</p>
-        <div class="tagtable">
-          <div class="tr th"><span>検索する文字列</span><span>見つかるもの</span><span>形式</span></div>
-          <div class="tr"><span><code>G-</code></span><span>GA4 測定 ID</span><span class="ex2">G-XXXXXXXXXX</span></div>
-          <div class="tr"><span><code>GTM-</code></span><span>Google タグマネージャー</span><span class="ex2">GTM-XXXXXXX</span></div>
-          <div class="tr"><span><code>AW-</code></span><span>Google 広告のコンバージョン</span><span class="ex2">AW-XXXXXXXXX</span></div>
-          <div class="tr"><span><code>UA-</code></span><span>旧アナリティクス（参考）</span><span class="ex2">UA-XXXXXXX-X</span></div>
-          <div class="tr"><span><code>google-site-verification</code></span><span>Search Console 所有権確認</span><span class="ex2">meta タグ</span></div>
-          <div class="tr"><span><code>yjtag</code> / <code>yahoo</code></span><span>Yahoo! 広告タグ</span><span class="ex2">—</span></div>
-          <div class="tr"><span><code>uetq</code> / <code>bat.bing</code></span><span>Microsoft 広告（UET タグ）</span><span class="ex2">—</span></div>
-        </div>
-        <p class="sub-note">見つかった行をそのままコピーしてお送りいただいて構いません。
-          ID だけ抜き出していただく必要はありません。</p>
-        <p class="sub-note"><b>今回の 3 サイトでは <code>GTM-</code> のみが見つかり、<code>G-</code> は
-          出てきません。</b>GA4 の設定が GTM の中にあるためです。この方法では GA4 測定 ID までは
-          たどり着けませんので、方法 2 へお進みください。</p>
-      </li>
-      <li>
-        <h3>タグマネージャーの中を確認する（今回はこちら）</h3>
-        <p><a href="https://tagmanager.google.com/" target="_blank" rel="noopener">tagmanager.google.com</a>
-          にログインし、上の表のコンテナを開きます。左メニューの<b>「タグ」</b>を選ぶと、
-          設定されているタグの一覧が表示されます。</p>
-        <p>一覧の中から <b>「Google タグ」</b>または<b>「GA4 設定」</b>という種類のタグを開くと、
-          <b>測定 ID</b>（<code>G-</code> から始まる文字列）が確認できます。</p>
-        <p class="sub-note">同じ一覧に、Google 広告のコンバージョンタグや Yahoo!・Microsoft 広告の
-          タグが並んでいる場合もございます。<b>タグ一覧の画面をスクリーンショットでお送りいただく形でも
-          結構です。</b>その場合はフォームの「そのほか埋め込まれているタグ」に
-          「スクリーンショットを別途送付」とご記入ください。</p>
-      </li>
-      <li>
-        <h3>Google アナリティクスの管理画面から確認する</h3>
-        <p><a href="https://analytics.google.com/" target="_blank" rel="noopener">analytics.google.com</a>
-          にログインし、左下の<b>「管理」</b>→<b>「データストリーム」</b>→対象のストリームを開くと、
-          右上に<b>測定 ID</b>（<code>G-</code> から始まる文字列）が表示されます。</p>
-        <p class="sub-note">サイトごとにストリームが分かれている場合は、それぞれの測定 ID をご確認ください。
-          どのストリームがどのサイトか分かりにくい場合は、ストリームの URL 欄をご確認ください。</p>
-      </li>
-      <li>
-        <h3>管理画面への権限付与でも対応できます</h3>
-        <p>ID をお調べいただく代わりに、Google アナリティクス／タグマネージャーの管理画面から
-          ITLINE のアカウントを招待いただく方法でも対応可能です。
-          その場合は招待先のアカウントを別途ご案内いたしますので、
-          下のフォームの「連絡事項」にその旨をご記入ください。</p>
-      </li>
-      <li>
-        <h3>Web 広告のタグについて</h3>
-        <p>採用サイトの URL を広告のランディングページに使用されているとのことでしたので、
-          広告側の計測タグもあわせてご確認ください。代理店にご依頼されている場合は、
-          <b>「移行に伴いタグの引き継ぎが必要」</b>とお伝えいただければ、
-          先方から必要な情報をご提供いただけます。</p>
-      </li>
-    </ol>
+    <h2>ご対応いただきたいこと</h2>
+    <p class="lead2">下記のいずれか 1 つで結構です。<b>A が最も簡単で、確実です。</b></p>
+
+    <div class="opts">
+      <div class="opt-card best">
+        <div class="opt-head"><span class="badge">A</span>
+          <span class="opt-title">GTM に ITLINE を招待する</span>
+          <span class="opt-time">2分</span></div>
+        <p>GTM の管理画面で、ITLINE のアカウントに<b>閲覧権限</b>を付与いただきます。
+          中身をこちらで確認できるため、以降のやりとりが不要になります。</p>
+        <ol class="mini">
+          <li><a href="https://tagmanager.google.com/" target="_blank" rel="noopener">tagmanager.google.com</a> を開く</li>
+          <li>対象のコンテナを開き、上部の<b>「管理」</b>タブへ</li>
+          <li><b>「ユーザー管理」</b>→ 右上の<b>「＋」</b>→「ユーザーを追加」</li>
+          <li>ITLINE のアカウントを入力し、コンテナの権限を<b>「閲覧」</b>にして招待</li>
+        </ol>
+        <p class="sub-note">招待先のアカウントは ITLINE より Teams にてご案内いたします。
+          下のフォームで A をお選びいただければ、こちらからお送りします。</p>
+      </div>
+
+      <div class="opt-card">
+        <div class="opt-head"><span class="badge">B</span>
+          <span class="opt-title">コンテナをエクスポートして送る</span>
+          <span class="opt-time">3分</span></div>
+        <p>設定内容をファイルに書き出してお送りいただく方法です。
+          アカウントのご準備や招待の手続きが不要です。</p>
+        <ol class="mini">
+          <li>GTM で対象のコンテナを開き、上部の<b>「管理」</b>タブへ</li>
+          <li><b>「コンテナをエクスポート」</b>をクリック</li>
+          <li>公開中のバージョンを選び、<b>「エクスポート」</b>で JSON ファイルを保存</li>
+          <li>Teams でファイルをお送りください</li>
+        </ol>
+      </div>
+
+      <div class="opt-card">
+        <div class="opt-head"><span class="badge">C</span>
+          <span class="opt-title">GA4 の測定 ID を調べて送る</span>
+          <span class="opt-time">5分</span></div>
+        <p>A・B が難しい場合の方法です。GTM の中から測定 ID を確認していただきます。</p>
+        <ol class="mini">
+          <li>GTM で対象のコンテナを開き、左メニューの<b>「タグ」</b>へ</li>
+          <li>一覧から<b>「Google タグ」</b>または<b>「GA4 設定」</b>のタグを開く</li>
+          <li><b>測定 ID</b>（<code>G-</code> から始まる文字列）を控える</li>
+          <li>下のフォームでご入力ください</li>
+        </ol>
+        <p class="sub-note">タグ一覧の画面をスクリーンショットでお送りいただく形でも結構です。
+          その場合はフォームの「連絡事項」にその旨をご記入ください。</p>
+      </div>
+    </div>
   </section>
 
   <section>
-    <h2>タグ送信フォーム</h2>
-    <p class="lead2">分かる範囲でご入力ください。空欄のままの項目は本文に含まれません。</p>
+    <h2>ご連絡フォーム</h2>
     <p class="secnote"><b>ひと手間おかけする理由</b>
       計測タグには広告アカウントに紐づく情報が含まれるため、<b>外部のフォーム送信サービスを
       経由させない設計</b>にしております。このページは入力内容からメール本文を組み立てるだけで、
@@ -359,87 +351,44 @@
                placeholder="グラビス株式会社　岡田" required>
       </div>
 
-          <fieldset class="siteset">
-            <legend><span class="sname">ホールディングス</span><code class="sdom">glavis-hd.com</code></legend>
-            <div class="field">
-              <label for="f-hd-ga4">GA4 測定 ID</label>
-              <input id="f-hd-ga4" type="text" spellcheck="false" autocomplete="off"
-                     placeholder="G-XXXXXXXXXX">
-            </div>
-            <div class="field">
-              <label for="f-hd-gtm">GTM コンテナ ID</label>
-              <input id="f-hd-gtm" type="text" spellcheck="false" autocomplete="off"
-                     value="GTM-MTQ27JHK / GTM-PR2QHTL">
-              <span class="hint">ITLINE にて現行サイトから確認済みです。相違があればご修正ください。</span>
-            </div>
-            <div class="field">
-              <label for="f-hd-etc">そのほか埋め込まれているタグ <span class="opt">任意</span></label>
-              <textarea id="f-hd-etc" rows="2"
-                        placeholder="広告タグ、ヒートマップ等。タグのコードをそのまま貼り付けていただいても構いません"></textarea>
-            </div>
-          </fieldset>
-          <fieldset class="siteset">
-            <legend><span class="sname">グラビス・アーキテクツ</span><code class="sdom">glavisarchitects.com</code></legend>
-            <div class="field">
-              <label for="f-ga-ga4">GA4 測定 ID</label>
-              <input id="f-ga-ga4" type="text" spellcheck="false" autocomplete="off"
-                     placeholder="G-XXXXXXXXXX">
-            </div>
-            <div class="field">
-              <label for="f-ga-gtm">GTM コンテナ ID</label>
-              <input id="f-ga-gtm" type="text" spellcheck="false" autocomplete="off"
-                     value="GTM-MTQ27JHK / GTM-WLJ4JZX">
-              <span class="hint">ITLINE にて現行サイトから確認済みです。相違があればご修正ください。</span>
-            </div>
-            <div class="field">
-              <label for="f-ga-etc">そのほか埋め込まれているタグ <span class="opt">任意</span></label>
-              <textarea id="f-ga-etc" rows="2"
-                        placeholder="広告タグ、ヒートマップ等。タグのコードをそのまま貼り付けていただいても構いません"></textarea>
-            </div>
-          </fieldset>
-          <fieldset class="siteset">
-            <legend><span class="sname">採用サイト</span><code class="sdom">glavis-hd.com/recruit/</code></legend>
-            <div class="field">
-              <label for="f-rc-ga4">GA4 測定 ID</label>
-              <input id="f-rc-ga4" type="text" spellcheck="false" autocomplete="off"
-                     placeholder="G-XXXXXXXXXX">
-            </div>
-            <div class="field">
-              <label for="f-rc-gtm">GTM コンテナ ID</label>
-              <input id="f-rc-gtm" type="text" spellcheck="false" autocomplete="off"
-                     value="GTM-MTQ27JHK / GTM-PR2QHTL">
-              <span class="hint">ITLINE にて現行サイトから確認済みです。相違があればご修正ください。</span>
-            </div>
-            <div class="field">
-              <label for="f-rc-etc">そのほか埋め込まれているタグ <span class="opt">任意</span></label>
-              <textarea id="f-rc-etc" rows="2"
-                        placeholder="広告タグ、ヒートマップ等。タグのコードをそのまま貼り付けていただいても構いません"></textarea>
-            </div>
-          </fieldset>
       <fieldset class="siteset common">
-        <legend><span class="sname">3サイト共通</span></legend>
+        <legend><span class="sname">ご対応方法 <span class="req">必須</span></span></legend>
+        <label class="radio"><input type="radio" name="method" value="A" checked>
+          <span><b>A：GTM に ITLINE を招待する</b>　招待先アカウントの連絡を希望します</span></label>
+        <label class="radio"><input type="radio" name="method" value="B">
+          <span><b>B：コンテナをエクスポートして送る</b>　JSON ファイルを Teams で送付します</span></label>
+        <label class="radio"><input type="radio" name="method" value="C">
+          <span><b>C：GA4 の測定 ID を調べて送る</b>　下の欄にご入力ください</span></label>
+      </fieldset>
+
+      <fieldset class="siteset" id="ga4set" hidden>
+        <legend><span class="sname">GA4 測定 ID</span>
+          <code class="sdom">分かるサイトのみで結構です</code></legend>
         <div class="field">
-          <label for="f-ads">Web 広告のコンバージョンタグ <span class="opt">任意</span></label>
-          <textarea id="f-ads" rows="3"
-                    placeholder="Google 広告 / Yahoo! 広告 / Microsoft 広告 など。&#10;代理店にご確認中の場合は、その旨をご記入ください"></textarea>
+          <label for="f-hd">ホールディングス <code class="dom">glavis-hd.com</code></label>
+          <input id="f-hd" type="text" spellcheck="false" autocomplete="off" placeholder="G-XXXXXXXXXX">
         </div>
         <div class="field">
-          <label for="f-sc">Search Console の所有権確認タグ・管理アカウント <span class="opt">任意</span></label>
-          <input id="f-sc" type="text" autocomplete="off"
-                 placeholder="meta タグ、または管理されている Google アカウント">
+          <label for="f-ga">グラビス・アーキテクツ <code class="dom">glavisarchitects.com</code></label>
+          <input id="f-ga" type="text" spellcheck="false" autocomplete="off" placeholder="G-XXXXXXXXXX">
         </div>
         <div class="field">
-          <label for="f-account">GA4／GTM の管理アカウント <span class="opt">任意</span></label>
-          <input id="f-account" type="text" autocomplete="off"
-                 placeholder="example@glavis-hd.com">
-          <span class="hint">権限付与での対応をご希望の場合は、こちらにご記入ください。</span>
-        </div>
-        <div class="field">
-          <label for="f-memo">連絡事項 <span class="opt">任意</span></label>
-          <textarea id="f-memo" rows="3"
-                    placeholder="ご不明点、確認中の項目などがありましたらご記入ください"></textarea>
+          <label for="f-rc">採用サイト <code class="dom">glavis-hd.com/recruit/</code></label>
+          <input id="f-rc" type="text" spellcheck="false" autocomplete="off" placeholder="G-XXXXXXXXXX">
         </div>
       </fieldset>
+
+      <div class="field">
+        <label for="f-sc">Search Console を管理されている Google アカウント <span class="opt">任意</span></label>
+        <input id="f-sc" type="text" autocomplete="off" placeholder="example@glavis-hd.com">
+        <span class="hint">公開後の新 URL 登録に使用します。ご利用がない場合は空欄で構いません。</span>
+      </div>
+
+      <div class="field">
+        <label for="f-memo">連絡事項 <span class="opt">任意</span></label>
+        <textarea id="f-memo" rows="3"
+                  placeholder="ご不明点、確認中の項目などがありましたらご記入ください"></textarea>
+      </div>
 
       <div class="actions">
         <button type="submit" class="btn primary">メールで送信する</button>
@@ -457,7 +406,7 @@
   <section class="note">
     <h2>このあとの流れ</h2>
     <ul>
-      <li>ITLINE にて、移行後の各サイトへタグを設置します。</li>
+      <li>ITLINE にて GTM の設定内容を確認し、移行後の各サイトに同じ構成でタグを設置します。</li>
       <li>公開前のテスト環境で、タグが正しく発火することを確認します。</li>
       <li>公開後、Search Console に新しい URL を登録し、サイトマップを送信します。</li>
       <li>採用サイトは URL が変わるため、広告のランディングページ設定の更新が必要になる場合があります。
@@ -475,48 +424,53 @@
 <script>
 (function(){
   var TO = "tsutomu.kado@mocamoco.com,kodama@itline.co.jp";
-  var SUBJECT = "【GLAVIS】計測タグのご共有";
-  var SITES = [["hd","ホールディングス（glavis-hd.com）"],
-               ["ga","グラビス・アーキテクツ（glavisarchitects.com）"],
-               ["rc","採用サイト"]];
+  var SUBJECT = "【GLAVIS】計測タグの引き継ぎについて";
+  var SITES = [["hd","ホールディングス"],["ga","グラビス・アーキテクツ"],["rc","採用サイト"]];
   var form = document.getElementById("tagform");
   var msg  = document.getElementById("formmsg");
+  var ga4set = document.getElementById("ga4set");
   function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ""; }
+  function method(){ return document.querySelector('input[name="method"]:checked').value; }
   function say(t, cls){ msg.textContent = t; msg.className = "formmsg " + (cls || ""); }
 
-  // 担当者名は必須。タグは1つ以上の入力を求める。
+  // C を選んだときだけ測定ID欄を表示する
+  function sync(){ ga4set.hidden = (method() !== "C"); }
+  document.querySelectorAll('input[name="method"]').forEach(function(r){
+    r.addEventListener("change", sync);
+  });
+  sync();
+
   function check(){
     var nameEl = document.getElementById("f-name");
     var empty = !nameEl.value.trim();
     nameEl.setAttribute("aria-invalid", empty ? "true" : "false");
     if (empty){ say("貴社名・ご担当者名をご入力ください。", "err"); nameEl.focus(); return false; }
-    var any = false;
-    SITES.forEach(function(s){
-      if (val("f-"+s[0]+"-ga4") || val("f-"+s[0]+"-gtm") || val("f-"+s[0]+"-etc")) any = true;
-    });
-    if (val("f-ads") || val("f-sc") || val("f-account") || val("f-memo")) any = true;
-    if (!any){ say("タグの情報を1つ以上ご入力ください。分からない項目は空欄で構いません。", "err"); return false; }
+    if (method() === "C" && !val("f-hd") && !val("f-ga") && !val("f-rc")){
+      say("測定 ID を 1 つ以上ご入力ください。分かるサイトのみで結構です。", "err");
+      document.getElementById("f-hd").focus(); return false;
+    }
     return true;
   }
 
+  var LABEL = {A:"A：GTM に ITLINE を招待する（招待先アカウントの連絡を希望）",
+               B:"B：コンテナをエクスポートして送る（JSON を Teams で送付）",
+               C:"C：GA4 の測定 ID を調べて送る"};
+
   function body(){
+    var m = method();
     var L = ["株式会社ITLINE ご担当者様", "",
-             "現行サイトの計測タグをお送りいたします。", "",
-             "■ 貴社名・ご担当者名", val("f-name"), ""];
-    SITES.forEach(function(s){
-      var k = s[0];
-      var ga4 = val("f-"+k+"-ga4"), gtm = val("f-"+k+"-gtm"), etc = val("f-"+k+"-etc");
-      if (!ga4 && !gtm && !etc) return;
-      L.push("■ " + s[1]);
-      if (ga4) L.push("GA4 測定ID: " + ga4);
-      if (gtm) L.push("GTM コンテナID: " + gtm);
-      if (etc) L.push("そのほかのタグ:", etc);
+             "計測タグの引き継ぎについてご連絡いたします。", "",
+             "■ 貴社名・ご担当者名", val("f-name"), "",
+             "■ ご対応方法", LABEL[m], ""];
+    if (m === "A") L.push("招待先のアカウントをご連絡ください。", "");
+    if (m === "B") L.push("エクスポートした JSON ファイルは Teams にてお送りします。", "");
+    if (m === "C"){
+      L.push("■ GA4 測定 ID");
+      SITES.forEach(function(s){ if (val("f-"+s[0])) L.push(s[1] + ": " + val("f-"+s[0])); });
       L.push("");
-    });
-    if (val("f-ads"))     L.push("■ Web広告のコンバージョンタグ", val("f-ads"), "");
-    if (val("f-sc"))      L.push("■ Search Console 所有権確認タグ・管理アカウント", val("f-sc"), "");
-    if (val("f-account")) L.push("■ GA4／GTM の管理アカウント", val("f-account"), "");
-    if (val("f-memo"))    L.push("■ 連絡事項", val("f-memo"), "");
+    }
+    if (val("f-sc"))   L.push("■ Search Console の管理アカウント", val("f-sc"), "");
+    if (val("f-memo")) L.push("■ 連絡事項", val("f-memo"), "");
     L.push("以上、よろしくお願いいたします。");
     return L.join("\n");
   }
