@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>計測タグ 確認マニュアル｜GLAVISグループ サイト移行プロジェクト</title>
+<style>
+  :root{
+    --ink:#14263d; --ink-2:#3e5570; --ink-3:#5c7085;
+    --paper:#f7fbfc; --card:#ffffff; --line:#d6e7ea; --line-soft:#eaf4f6;
+    --brand:#08aeb6; --brand-2:#79edbd;
+    --accent:#05737a; --accent-soft:#e0f5f6; --accent-ink:#045c62; --on-accent:#ffffff;
+    --fix:#8a5e12; --fix-soft:#fbf1de;
+    --ok:#0f7a57; --ok-soft:#e3f7ee;
+    --work:#8a5600; --work-soft:#fbeed9;
+    --plan:#2c5c96; --plan-soft:#e3ecf7;
+    --gl:#213f6b; --gl-on:#ffffff;
+    --idle:#5c6f82; --idle-soft:#ecf1f4;
+    --late:#a8332a; --late-soft:#f9e5e3;
+    --pub:#c0271d; --pub-soft:#fbe7e4;
+    --shadow:0 1px 2px rgba(20,38,61,.05), 0 8px 24px -12px rgba(20,38,61,.20);
+    --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+    --jp:"Hiragino Kaku Gothic ProN","Yu Gothic Medium","Yu Gothic","Noto Sans JP","Meiryo",sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+    --ink:#e6f2f3; --ink-2:#a6bfc4; --ink-3:#7c99a0;
+    --paper:#0b1519; --card:#122126; --line:#24383d; --line-soft:#1a2a2f;
+    --brand:#3fc9d1; --brand-2:#79edbd;
+    --accent:#4ecbd3; --accent-soft:#0c3236; --accent-ink:#8ae5ea; --on-accent:#04252a;
+    --fix:#d7a44f; --fix-soft:#33270f;
+    --ok:#5fd3a5; --ok-soft:#0f2e24;
+    --work:#d9a04a; --work-soft:#31240e;
+    --plan:#78aee6; --plan-soft:#122536;
+    --gl:#2f5f9c; --gl-on:#ffffff;
+    --idle:#8b9fa3; --idle-soft:#1d2628;
+    --late:#e0736a; --late-soft:#341917;
+    --pub:#ff8074; --pub-soft:#3a1512;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="light"]{
+    --ink:#14263d; --ink-2:#3e5570; --ink-3:#5c7085;
+    --paper:#f7fbfc; --card:#ffffff; --line:#d6e7ea; --line-soft:#eaf4f6;
+    --brand:#08aeb6; --brand-2:#79edbd;
+    --accent:#05737a; --accent-soft:#e0f5f6; --accent-ink:#045c62; --on-accent:#ffffff;
+    --fix:#8a5e12; --fix-soft:#fbf1de;
+    --ok:#0f7a57; --ok-soft:#e3f7ee;
+    --work:#8a5600; --work-soft:#fbeed9;
+    --plan:#2c5c96; --plan-soft:#e3ecf7;
+    --gl:#213f6b; --gl-on:#ffffff;
+    --idle:#5c6f82; --idle-soft:#ecf1f4;
+    --late:#a8332a; --late-soft:#f9e5e3;
+    --pub:#c0271d; --pub-soft:#fbe7e4;
+    --shadow:0 1px 2px rgba(20,38,61,.05), 0 8px 24px -12px rgba(20,38,61,.20);
+  }
+  :root[data-theme="dark"]{
+    --ink:#e6f2f3; --ink-2:#a6bfc4; --ink-3:#7c99a0;
+    --paper:#0b1519; --card:#122126; --line:#24383d; --line-soft:#1a2a2f;
+    --brand:#3fc9d1; --brand-2:#79edbd;
+    --accent:#4ecbd3; --accent-soft:#0c3236; --accent-ink:#8ae5ea; --on-accent:#04252a;
+    --fix:#d7a44f; --fix-soft:#33270f;
+    --ok:#5fd3a5; --ok-soft:#0f2e24;
+    --work:#d9a04a; --work-soft:#31240e;
+    --plan:#78aee6; --plan-soft:#122536;
+    --gl:#2f5f9c; --gl-on:#ffffff;
+    --idle:#8b9fa3; --idle-soft:#1d2628;
+    --late:#e0736a; --late-soft:#341917;
+    --pub:#ff8074; --pub-soft:#3a1512;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--jp);
+       font-size:15.5px;line-height:1.85;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 88px;
+        display:flex;flex-direction:column;gap:40px}
+  h1,h2,h3{margin:0;text-wrap:balance;font-weight:700}
+  a{color:var(--accent)}
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  code{font-family:var(--mono);font-size:.92em;background:var(--accent-soft);
+       color:var(--accent-ink);padding:2px 7px;border-radius:5px}
+
+  header{display:flex;flex-direction:column;gap:16px;
+         border-bottom:1px solid var(--line);padding-bottom:26px}
+  .back{font-size:13px;font-weight:600;text-decoration:none;align-self:flex-start}
+  .back:hover{text-decoration:underline}
+  h1{font-size:clamp(24px,4vw,33px);line-height:1.35}
+  h1 .sub{display:block;font-size:12px;font-weight:700;color:var(--accent);
+          letter-spacing:.14em;margin-bottom:10px;font-family:var(--mono)}
+  .lead{margin:0;font-size:15px;color:var(--ink-2);max-width:64ch}
+
+  .facts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .fact{background:var(--card);border:1px solid var(--line);border-radius:9px;
+        padding:11px 14px;display:flex;flex-direction:column;gap:1px;box-shadow:var(--shadow)}
+  .fact .l{font-size:11px;letter-spacing:.09em;color:var(--ink-3);font-weight:700}
+  .fact .v{font-size:15px;font-weight:700}
+
+  section{display:flex;flex-direction:column;gap:16px}
+  h2{font-size:19px}
+  .note{background:var(--card);border:1px solid var(--line);border-radius:12px;
+        padding:22px 26px;box-shadow:var(--shadow);gap:12px}
+  .note.tip{background:var(--accent-soft);border-color:var(--accent)}
+  .note.warn{background:var(--fix-soft);border-color:var(--fix)}
+  .note.warn h2{color:var(--fix)}
+  .note ul{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:9px}
+  .note dl{margin:0;display:flex;flex-direction:column;gap:14px}
+  .note dt{font-weight:700}
+  .note dd{margin:2px 0 0;color:var(--ink-2);font-size:14.5px}
+
+  .steps{margin:0;padding:0;list-style:none;counter-reset:s;
+         display:flex;flex-direction:column;gap:14px}
+  .steps > li{counter-increment:s;position:relative;
+              background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:22px 26px 22px 74px;box-shadow:var(--shadow)}
+  .steps > li::before{content:counter(s);position:absolute;left:22px;top:21px;
+       width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+       background:linear-gradient(135deg,var(--brand),var(--brand-2));
+       color:#04252a;font-family:var(--mono);font-size:15px;font-weight:700}
+  .steps h3{font-size:17px;margin-bottom:6px}
+  .steps p{margin:0 0 8px}
+  .steps p:last-child{margin-bottom:0}
+  .sub-note{font-size:13.5px;color:var(--ink-3)}
+  .url a{font-family:var(--mono);font-size:14px;word-break:break-all;font-weight:600}
+  .ex{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .exl{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--ink-3)}
+  .codeblock{display:flex;flex-direction:column;gap:6px;align-items:flex-start;
+             margin:0 0 10px}
+  .codeblock code{font-size:15px;padding:6px 14px}
+
+  .keys{display:grid;gap:10px;margin-bottom:10px}
+  .key{border:1px solid var(--line);border-radius:9px;padding:12px 16px;
+       display:flex;flex-direction:column;gap:2px;background:var(--paper)}
+  .key.secret{border-color:var(--pub)}
+  .key .kl{font-size:11px;font-weight:700;letter-spacing:.09em;color:var(--ink-3)}
+  .key.secret .kl{color:var(--pub)}
+  .key .kv{font-family:var(--mono);font-size:14px;font-weight:600;word-break:break-all}
+  .key .mask{color:var(--ink-3);letter-spacing:.02em}
+  .key .kd{font-size:12.5px;color:var(--ink-3)}
+
+  .secnote{margin:0 0 4px;font-size:14px;line-height:1.8;
+           background:var(--accent-soft);border:1px solid var(--accent);
+           border-radius:10px;padding:14px 18px}
+  .secnote b:first-child{display:block;color:var(--accent-ink);font-size:12px;
+           letter-spacing:.08em;margin-bottom:4px}
+
+  /* ---------- キー送信フォーム ---------- */
+  #keyform{display:flex;flex-direction:column;gap:14px;margin:14px 0 12px;
+           background:var(--paper);border:1px solid var(--line);
+           border-radius:10px;padding:20px}
+  .field{display:flex;flex-direction:column;gap:5px}
+  .field label{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .req{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--pub);
+       background:var(--pub-soft);border-radius:4px;padding:1px 6px}
+  .opt{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--ink-3);
+       background:var(--idle-soft);border-radius:4px;padding:1px 6px}
+  .field input,.field select,.field textarea{font-family:inherit;font-size:14.5px;
+       color:var(--ink);background:var(--card);border:1px solid var(--line);
+       border-radius:8px;padding:9px 12px;width:100%}
+  #f-site,#f-secret{font-family:var(--mono);font-size:14px}
+  .field textarea{resize:vertical;line-height:1.7}
+  .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{
+       outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  .field input[aria-invalid="true"]{border-color:var(--pub);background:var(--pub-soft)}
+  .hint{font-size:12.5px;color:var(--ink-3)}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:2px}
+  .btn{font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;
+       border-radius:99px;padding:10px 22px;border:1px solid var(--accent);
+       background:transparent;color:var(--accent)}
+  .btn:hover{background:var(--accent-soft)}
+  .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));
+       border-color:transparent;color:#04252a}
+  .btn.primary:hover{filter:brightness(1.06)}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .formmsg{margin:0;font-size:13.5px;font-weight:600;min-height:1.4em}
+  .formmsg.err{color:var(--pub)}
+  .formmsg.ok{color:var(--ok)}
+  .fallback{width:100%;height:220px;margin-top:10px;font-family:var(--mono);
+            font-size:13px;border:1px solid var(--line);border-radius:8px;padding:10px}
+
+  footer{border-top:1px solid var(--line);padding-top:22px;font-size:13.5px;
+         color:var(--ink-3);display:flex;flex-direction:column;gap:8px}
+  footer p{margin:0}
+  .cred{font-size:12px}
+
+  @media (max-width:620px){
+    .wrap{padding:26px 16px 64px;gap:32px}
+    .steps > li{padding:20px 18px 20px 18px}
+    .steps > li::before{position:static;margin-bottom:10px}
+    .note{padding:18px 18px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  .lead2{margin:0;font-size:14.5px;color:var(--ink-2);max-width:66ch}
+  .note.warn p{margin:0}
+  #tagform{display:flex;flex-direction:column;gap:16px;margin:4px 0 12px;
+           background:var(--paper);border:1px solid var(--line);
+           border-radius:10px;padding:20px}
+  .siteset{border:1px solid var(--line);border-radius:10px;padding:14px 18px 18px;
+           margin:0;background:var(--card);display:flex;flex-direction:column;gap:12px}
+  .siteset.common{border-color:var(--accent)}
+  .siteset legend{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+                  padding:0 8px;margin-left:-4px}
+  .sname{font-size:14px;font-weight:700;color:var(--ink)}
+  .sdom{font-size:12px}
+  .tagtable{display:flex;flex-direction:column;border:1px solid var(--line);
+            border-radius:9px;overflow:hidden;margin:0 0 10px}
+  .tagtable .tr{display:grid;grid-template-columns:1.5fr 1.4fr 1.1fr;gap:10px;
+                padding:9px 14px;font-size:13.5px;align-items:center;
+                border-bottom:1px solid var(--line-soft);background:var(--card)}
+  .tagtable .tr:last-child{border-bottom:0}
+  .tagtable .th{background:var(--accent-soft);font-weight:700;font-size:11.5px;
+                letter-spacing:.06em;color:var(--accent-ink)}
+  .tagtable .ex2{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+  @media (max-width:620px){
+    .tagtable .tr{grid-template-columns:1fr;gap:2px}
+    .tagtable .th{display:none}
+    .tagtable .tr{padding:11px 14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="../">← 進捗ダッシュボードへ戻る</a>
+    <h1><span class="sub">GLAVIS GROUP / SITE MIGRATION</span>
+      計測タグ 確認マニュアル</h1>
+    <p class="lead">移行後のサイトに、現在お使いのアクセス解析・広告計測のタグを引き継ぎます。
+      現行サイトに設置されているタグをご確認のうえ、ページ下部のフォームからお送りください。</p>
+    <div class="facts">
+      <div class="fact"><span class="l">ご対応いただく方</span><span class="v">グラビス様</span></div>
+      <div class="fact"><span class="l">期限</span><span class="v">2026年8月21日</span></div>
+      <div class="fact"><span class="l">所要時間</span><span class="v">10分程度</span></div>
+      <div class="fact"><span class="l">対象</span><span class="v">HD・GA・採用</span></div>
+    </div>
+  </header>
+
+  <section class="note warn">
+    <h2>なぜ必要か</h2>
+    <p>タグが引き継がれないまま公開すると、<b>公開日を境にアクセスデータが途切れ、
+      Web 広告のコンバージョン計測も停止します。</b>
+      過去との比較ができなくなり、広告の効果測定にも影響が出ますので、
+      公開前の受領をお願いしております。</p>
+    <p class="sub-note">全部は分からない、という状態でも問題ありません。
+      分かる範囲でお送りいただければ、残りは ITLINE 側でも現行サイトを確認いたします。</p>
+  </section>
+
+  <section>
+    <h2>確認方法</h2>
+    <p class="lead2">下記のいずれかの方法でご確認いただけます。
+      <b>方法1が最も確実</b>ですが、管理画面をお使いの場合は方法2・3が簡単です。</p>
+    <ol class="steps">
+      <li>
+        <h3>サイトのソースから探す（最も確実）</h3>
+        <p>対象サイトをブラウザで開き、<code>Ctrl</code> + <code>U</code>
+          （Mac は <code>⌘</code> + <code>option</code> + <code>U</code>）でソースを表示します。
+          続いて <code>Ctrl</code> + <code>F</code> で下記の文字列を検索してください。</p>
+        <div class="tagtable">
+          <div class="tr th"><span>検索する文字列</span><span>見つかるもの</span><span>形式</span></div>
+          <div class="tr"><span><code>G-</code></span><span>GA4 測定 ID</span><span class="ex2">G-XXXXXXXXXX</span></div>
+          <div class="tr"><span><code>GTM-</code></span><span>Google タグマネージャー</span><span class="ex2">GTM-XXXXXXX</span></div>
+          <div class="tr"><span><code>AW-</code></span><span>Google 広告のコンバージョン</span><span class="ex2">AW-XXXXXXXXX</span></div>
+          <div class="tr"><span><code>UA-</code></span><span>旧アナリティクス（参考）</span><span class="ex2">UA-XXXXXXX-X</span></div>
+          <div class="tr"><span><code>google-site-verification</code></span><span>Search Console 所有権確認</span><span class="ex2">meta タグ</span></div>
+          <div class="tr"><span><code>yjtag</code> / <code>yahoo</code></span><span>Yahoo! 広告タグ</span><span class="ex2">—</span></div>
+          <div class="tr"><span><code>uetq</code> / <code>bat.bing</code></span><span>Microsoft 広告（UET タグ）</span><span class="ex2">—</span></div>
+        </div>
+        <p class="sub-note">見つかった行をそのままコピーしてお送りいただいて構いません。
+          ID だけ抜き出していただく必要はありません。</p>
+      </li>
+      <li>
+        <h3>Google アナリティクスの管理画面から確認する</h3>
+        <p><a href="https://analytics.google.com/" target="_blank" rel="noopener">analytics.google.com</a>
+          にログインし、左下の<b>「管理」</b>→<b>「データストリーム」</b>→対象のストリームを開くと、
+          右上に<b>測定 ID</b>（<code>G-</code> から始まる文字列）が表示されます。</p>
+        <p class="sub-note">サイトごとにストリームが分かれている場合は、それぞれの測定 ID をご確認ください。</p>
+      </li>
+      <li>
+        <h3>Google タグマネージャーの管理画面から確認する</h3>
+        <p><a href="https://tagmanager.google.com/" target="_blank" rel="noopener">tagmanager.google.com</a>
+          にログインすると、画面上部に<b>コンテナ ID</b>（<code>GTM-</code> から始まる文字列）が表示されます。</p>
+        <p class="sub-note">タグマネージャーをご利用の場合、個別の広告タグはこの中で管理されていることが多く、
+          コンテナ ID のご共有だけで足りる場合があります。</p>
+      </li>
+      <li>
+        <h3>管理画面への権限付与でも対応できます</h3>
+        <p>ID をお調べいただく代わりに、Google アナリティクス／タグマネージャーの管理画面から
+          ITLINE のアカウントを招待いただく方法でも対応可能です。
+          その場合は招待先のアカウントを別途ご案内いたしますので、
+          下のフォームの「連絡事項」にその旨をご記入ください。</p>
+      </li>
+      <li>
+        <h3>Web 広告のタグについて</h3>
+        <p>採用サイトの URL を広告のランディングページに使用されているとのことでしたので、
+          広告側の計測タグもあわせてご確認ください。代理店にご依頼されている場合は、
+          <b>「移行に伴いタグの引き継ぎが必要」</b>とお伝えいただければ、
+          先方から必要な情報をご提供いただけます。</p>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>タグ送信フォーム</h2>
+    <p class="lead2">分かる範囲でご入力ください。空欄のままの項目は本文に含まれません。</p>
+    <p class="secnote"><b>ひと手間おかけする理由</b>
+      計測タグには広告アカウントに紐づく情報が含まれるため、<b>外部のフォーム送信サービスを
+      経由させない設計</b>にしております。このページは入力内容からメール本文を組み立てるだけで、
+      どこかへ自動的に送信したり、サーバーに保存したりすることは一切ありません。
+      お手数ではございますが、セキュリティ上あえて、お客様ご自身のメールソフトから
+      直接お送りいただく形にしております。</p>
+
+    <form id="tagform" novalidate>
+      <div class="field">
+        <label for="f-name">貴社名・ご担当者名 <span class="req">必須</span></label>
+        <input id="f-name" type="text" autocomplete="organization"
+               placeholder="グラビス株式会社　岡田" required>
+      </div>
+
+          <fieldset class="siteset">
+            <legend><span class="sname">ホールディングス</span><code class="sdom">glavis-hd.com</code></legend>
+            <div class="field">
+              <label for="f-hd-ga4">GA4 測定 ID</label>
+              <input id="f-hd-ga4" type="text" spellcheck="false" autocomplete="off"
+                     placeholder="G-XXXXXXXXXX">
+            </div>
+            <div class="field">
+              <label for="f-hd-gtm">GTM コンテナ ID</label>
+              <input id="f-hd-gtm" type="text" spellcheck="false" autocomplete="off"
+                     placeholder="GTM-XXXXXXX">
+            </div>
+            <div class="field">
+              <label for="f-hd-etc">そのほか埋め込まれているタグ <span class="opt">任意</span></label>
+              <textarea id="f-hd-etc" rows="2"
+                        placeholder="広告タグ、ヒートマップ等。タグのコードをそのまま貼り付けていただいても構いません"></textarea>
+            </div>
+          </fieldset>
+          <fieldset class="siteset">
+            <legend><span class="sname">グラビス・アーキテクツ</span><code class="sdom">glavisarchitects.com</code></legend>
+            <div class="field">
+              <label for="f-ga-ga4">GA4 測定 ID</label>
+              <input id="f-ga-ga4" type="text" spellcheck="false" autocomplete="off"
+                     placeholder="G-XXXXXXXXXX">
+            </div>
+            <div class="field">
+              <label for="f-ga-gtm">GTM コンテナ ID</label>
+              <input id="f-ga-gtm" type="text" spellcheck="false" autocomplete="off"
+                     placeholder="GTM-XXXXXXX">
+            </div>
+            <div class="field">
+              <label for="f-ga-etc">そのほか埋め込まれているタグ <span class="opt">任意</span></label>
+              <textarea id="f-ga-etc" rows="2"
+                        placeholder="広告タグ、ヒートマップ等。タグのコードをそのまま貼り付けていただいても構いません"></textarea>
+            </div>
+          </fieldset>
+          <fieldset class="siteset">
+            <legend><span class="sname">採用サイト</span><code class="sdom">現在は glavis-hd.com 配下</code></legend>
+            <div class="field">
+              <label for="f-rc-ga4">GA4 測定 ID</label>
+              <input id="f-rc-ga4" type="text" spellcheck="false" autocomplete="off"
+                     placeholder="G-XXXXXXXXXX">
+            </div>
+            <div class="field">
+              <label for="f-rc-gtm">GTM コンテナ ID</label>
+              <input id="f-rc-gtm" type="text" spellcheck="false" autocomplete="off"
+                     placeholder="GTM-XXXXXXX">
+            </div>
+            <div class="field">
+              <label for="f-rc-etc">そのほか埋め込まれているタグ <span class="opt">任意</span></label>
+              <textarea id="f-rc-etc" rows="2"
+                        placeholder="広告タグ、ヒートマップ等。タグのコードをそのまま貼り付けていただいても構いません"></textarea>
+            </div>
+          </fieldset>
+      <fieldset class="siteset common">
+        <legend><span class="sname">3サイト共通</span></legend>
+        <div class="field">
+          <label for="f-ads">Web 広告のコンバージョンタグ <span class="opt">任意</span></label>
+          <textarea id="f-ads" rows="3"
+                    placeholder="Google 広告 / Yahoo! 広告 / Microsoft 広告 など。&#10;代理店にご確認中の場合は、その旨をご記入ください"></textarea>
+        </div>
+        <div class="field">
+          <label for="f-sc">Search Console の所有権確認タグ・管理アカウント <span class="opt">任意</span></label>
+          <input id="f-sc" type="text" autocomplete="off"
+                 placeholder="meta タグ、または管理されている Google アカウント">
+        </div>
+        <div class="field">
+          <label for="f-account">GA4／GTM の管理アカウント <span class="opt">任意</span></label>
+          <input id="f-account" type="text" autocomplete="off"
+                 placeholder="example@glavis-hd.com">
+          <span class="hint">権限付与での対応をご希望の場合は、こちらにご記入ください。</span>
+        </div>
+        <div class="field">
+          <label for="f-memo">連絡事項 <span class="opt">任意</span></label>
+          <textarea id="f-memo" rows="3"
+                    placeholder="ご不明点、確認中の項目などがありましたらご記入ください"></textarea>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit" class="btn primary">メールで送信する</button>
+        <button type="button" class="btn" id="copybtn">内容をコピーする</button>
+      </div>
+      <p class="formmsg" id="formmsg" role="status" aria-live="polite"></p>
+    </form>
+
+    <p class="sub-note">メールソフトが立ち上がらない場合は「内容をコピーする」を押し、
+      Teams のプライベートチャットに貼り付けてお送りください。</p>
+    <p class="sub-note">送信先：<code>tsutomu.kado@mocamoco.com</code>（加堂）／
+      <code>kodama@itline.co.jp</code>（小玉）</p>
+  </section>
+
+  <section class="note">
+    <h2>このあとの流れ</h2>
+    <ul>
+      <li>ITLINE にて、移行後の各サイトへタグを設置します。</li>
+      <li>公開前のテスト環境で、タグが正しく発火することを確認します。</li>
+      <li>公開後、Search Console に新しい URL を登録し、サイトマップを送信します。</li>
+      <li>採用サイトは URL が変わるため、広告のランディングページ設定の更新が必要になる場合があります。
+        必要な対応が判明しましたら、ITLINE よりご連絡いたします。</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>ご不明な点は Teams、またはお電話にて遠慮なくお問い合わせください。</p>
+    <p class="cred">株式会社 ITLINE　GLAVIS グループ サイト移行プロジェクト</p>
+    <p><a class="back" href="../">← 進捗ダッシュボードへ戻る</a></p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var TO = "tsutomu.kado@mocamoco.com,kodama@itline.co.jp";
+  var SUBJECT = "【GLAVIS】計測タグのご共有";
+  var SITES = [["hd","ホールディングス（glavis-hd.com）"],
+               ["ga","グラビス・アーキテクツ（glavisarchitects.com）"],
+               ["rc","採用サイト"]];
+  var form = document.getElementById("tagform");
+  var msg  = document.getElementById("formmsg");
+  function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ""; }
+  function say(t, cls){ msg.textContent = t; msg.className = "formmsg " + (cls || ""); }
+
+  // 担当者名は必須。タグは1つ以上の入力を求める。
+  function check(){
+    var nameEl = document.getElementById("f-name");
+    var empty = !nameEl.value.trim();
+    nameEl.setAttribute("aria-invalid", empty ? "true" : "false");
+    if (empty){ say("貴社名・ご担当者名をご入力ください。", "err"); nameEl.focus(); return false; }
+    var any = false;
+    SITES.forEach(function(s){
+      if (val("f-"+s[0]+"-ga4") || val("f-"+s[0]+"-gtm") || val("f-"+s[0]+"-etc")) any = true;
+    });
+    if (val("f-ads") || val("f-sc") || val("f-account") || val("f-memo")) any = true;
+    if (!any){ say("タグの情報を1つ以上ご入力ください。分からない項目は空欄で構いません。", "err"); return false; }
+    return true;
+  }
+
+  function body(){
+    var L = ["株式会社ITLINE ご担当者様", "",
+             "現行サイトの計測タグをお送りいたします。", "",
+             "■ 貴社名・ご担当者名", val("f-name"), ""];
+    SITES.forEach(function(s){
+      var k = s[0];
+      var ga4 = val("f-"+k+"-ga4"), gtm = val("f-"+k+"-gtm"), etc = val("f-"+k+"-etc");
+      if (!ga4 && !gtm && !etc) return;
+      L.push("■ " + s[1]);
+      if (ga4) L.push("GA4 測定ID: " + ga4);
+      if (gtm) L.push("GTM コンテナID: " + gtm);
+      if (etc) L.push("そのほかのタグ:", etc);
+      L.push("");
+    });
+    if (val("f-ads"))     L.push("■ Web広告のコンバージョンタグ", val("f-ads"), "");
+    if (val("f-sc"))      L.push("■ Search Console 所有権確認タグ・管理アカウント", val("f-sc"), "");
+    if (val("f-account")) L.push("■ GA4／GTM の管理アカウント", val("f-account"), "");
+    if (val("f-memo"))    L.push("■ 連絡事項", val("f-memo"), "");
+    L.push("以上、よろしくお願いいたします。");
+    return L.join("\n");
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (!check()) return;
+    location.href = "mailto:" + TO + "?subject=" + encodeURIComponent(SUBJECT)
+                  + "&body=" + encodeURIComponent(body());
+    say("メールソフトを起動しました。内容をご確認のうえ送信してください。"
+      + "立ち上がらない場合は「内容をコピーする」をご利用ください。", "ok");
+  });
+
+  document.getElementById("copybtn").addEventListener("click", function(){
+    if (!check()) return;
+    var text = "宛先: " + TO + "\n件名: " + SUBJECT + "\n\n" + body();
+    function fallback(){
+      var ta = form.querySelector(".fallback") || document.createElement("textarea");
+      ta.className = "fallback"; ta.value = text;
+      if (!ta.parentNode) form.appendChild(ta);
+      ta.select();
+      say("自動コピーできませんでした。下の枠内を選択してコピーしてください。", "err");
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        say("コピーしました。Teams のプライベートチャットに貼り付けてお送りください。", "ok");
+      }, fallback);
+    } else { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
