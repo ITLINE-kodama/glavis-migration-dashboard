@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>reCAPTCHA 設定マニュアル｜GLAVISグループ サイト移行プロジェクト</title>
+<style>
+  :root{
+    --ink:#14263d; --ink-2:#3e5570; --ink-3:#5c7085;
+    --paper:#f7fbfc; --card:#ffffff; --line:#d6e7ea; --line-soft:#eaf4f6;
+    --brand:#08aeb6; --brand-2:#79edbd;
+    --accent:#05737a; --accent-soft:#e0f5f6; --accent-ink:#045c62; --on-accent:#ffffff;
+    --fix:#8a5e12; --fix-soft:#fbf1de;
+    --ok:#0f7a57; --ok-soft:#e3f7ee;
+    --work:#8a5600; --work-soft:#fbeed9;
+    --plan:#2c5c96; --plan-soft:#e3ecf7;
+    --gl:#213f6b; --gl-on:#ffffff;
+    --idle:#5c6f82; --idle-soft:#ecf1f4;
+    --late:#a8332a; --late-soft:#f9e5e3;
+    --pub:#c0271d; --pub-soft:#fbe7e4;
+    --shadow:0 1px 2px rgba(20,38,61,.05), 0 8px 24px -12px rgba(20,38,61,.20);
+    --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+    --jp:"Hiragino Kaku Gothic ProN","Yu Gothic Medium","Yu Gothic","Noto Sans JP","Meiryo",sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+    --ink:#e6f2f3; --ink-2:#a6bfc4; --ink-3:#7c99a0;
+    --paper:#0b1519; --card:#122126; --line:#24383d; --line-soft:#1a2a2f;
+    --brand:#3fc9d1; --brand-2:#79edbd;
+    --accent:#4ecbd3; --accent-soft:#0c3236; --accent-ink:#8ae5ea; --on-accent:#04252a;
+    --fix:#d7a44f; --fix-soft:#33270f;
+    --ok:#5fd3a5; --ok-soft:#0f2e24;
+    --work:#d9a04a; --work-soft:#31240e;
+    --plan:#78aee6; --plan-soft:#122536;
+    --gl:#2f5f9c; --gl-on:#ffffff;
+    --idle:#8b9fa3; --idle-soft:#1d2628;
+    --late:#e0736a; --late-soft:#341917;
+    --pub:#ff8074; --pub-soft:#3a1512;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="light"]{
+    --ink:#14263d; --ink-2:#3e5570; --ink-3:#5c7085;
+    --paper:#f7fbfc; --card:#ffffff; --line:#d6e7ea; --line-soft:#eaf4f6;
+    --brand:#08aeb6; --brand-2:#79edbd;
+    --accent:#05737a; --accent-soft:#e0f5f6; --accent-ink:#045c62; --on-accent:#ffffff;
+    --fix:#8a5e12; --fix-soft:#fbf1de;
+    --ok:#0f7a57; --ok-soft:#e3f7ee;
+    --work:#8a5600; --work-soft:#fbeed9;
+    --plan:#2c5c96; --plan-soft:#e3ecf7;
+    --gl:#213f6b; --gl-on:#ffffff;
+    --idle:#5c6f82; --idle-soft:#ecf1f4;
+    --late:#a8332a; --late-soft:#f9e5e3;
+    --pub:#c0271d; --pub-soft:#fbe7e4;
+    --shadow:0 1px 2px rgba(20,38,61,.05), 0 8px 24px -12px rgba(20,38,61,.20);
+  }
+  :root[data-theme="dark"]{
+    --ink:#e6f2f3; --ink-2:#a6bfc4; --ink-3:#7c99a0;
+    --paper:#0b1519; --card:#122126; --line:#24383d; --line-soft:#1a2a2f;
+    --brand:#3fc9d1; --brand-2:#79edbd;
+    --accent:#4ecbd3; --accent-soft:#0c3236; --accent-ink:#8ae5ea; --on-accent:#04252a;
+    --fix:#d7a44f; --fix-soft:#33270f;
+    --ok:#5fd3a5; --ok-soft:#0f2e24;
+    --work:#d9a04a; --work-soft:#31240e;
+    --plan:#78aee6; --plan-soft:#122536;
+    --gl:#2f5f9c; --gl-on:#ffffff;
+    --idle:#8b9fa3; --idle-soft:#1d2628;
+    --late:#e0736a; --late-soft:#341917;
+    --pub:#ff8074; --pub-soft:#3a1512;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--jp);
+       font-size:15.5px;line-height:1.85;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:820px;margin:0 auto;padding:36px 24px 88px;
+        display:flex;flex-direction:column;gap:40px}
+  h1,h2,h3{margin:0;text-wrap:balance;font-weight:700}
+  a{color:var(--accent)}
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  code{font-family:var(--mono);font-size:.92em;background:var(--accent-soft);
+       color:var(--accent-ink);padding:2px 7px;border-radius:5px}
+
+  header{display:flex;flex-direction:column;gap:16px;
+         border-bottom:1px solid var(--line);padding-bottom:26px}
+  .back{font-size:13px;font-weight:600;text-decoration:none;align-self:flex-start}
+  .back:hover{text-decoration:underline}
+  h1{font-size:clamp(24px,4vw,33px);line-height:1.35}
+  h1 .sub{display:block;font-size:12px;font-weight:700;color:var(--accent);
+          letter-spacing:.14em;margin-bottom:10px;font-family:var(--mono)}
+  .lead{margin:0;font-size:15px;color:var(--ink-2);max-width:64ch}
+
+  .facts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .fact{background:var(--card);border:1px solid var(--line);border-radius:9px;
+        padding:11px 14px;display:flex;flex-direction:column;gap:1px;box-shadow:var(--shadow)}
+  .fact .l{font-size:11px;letter-spacing:.09em;color:var(--ink-3);font-weight:700}
+  .fact .v{font-size:15px;font-weight:700}
+
+  section{display:flex;flex-direction:column;gap:16px}
+  h2{font-size:19px}
+  .note{background:var(--card);border:1px solid var(--line);border-radius:12px;
+        padding:22px 26px;box-shadow:var(--shadow);gap:12px}
+  .note.tip{background:var(--accent-soft);border-color:var(--accent)}
+  .note.warn{background:var(--fix-soft);border-color:var(--fix)}
+  .note.warn h2{color:var(--fix)}
+  .note ul{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:9px}
+  .note dl{margin:0;display:flex;flex-direction:column;gap:14px}
+  .note dt{font-weight:700}
+  .note dd{margin:2px 0 0;color:var(--ink-2);font-size:14.5px}
+
+  .steps{margin:0;padding:0;list-style:none;counter-reset:s;
+         display:flex;flex-direction:column;gap:14px}
+  .steps > li{counter-increment:s;position:relative;
+              background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:22px 26px 22px 74px;box-shadow:var(--shadow)}
+  .steps > li::before{content:counter(s);position:absolute;left:22px;top:21px;
+       width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+       background:linear-gradient(135deg,var(--brand),var(--brand-2));
+       color:#04252a;font-family:var(--mono);font-size:15px;font-weight:700}
+  .steps h3{font-size:17px;margin-bottom:6px}
+  .steps p{margin:0 0 8px}
+  .steps p:last-child{margin-bottom:0}
+  .sub-note{font-size:13.5px;color:var(--ink-3)}
+  .url a{font-family:var(--mono);font-size:14px;word-break:break-all;font-weight:600}
+  .ex{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .exl{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--ink-3)}
+  .codeblock{display:flex;flex-direction:column;gap:6px;align-items:flex-start;
+             margin:0 0 10px}
+  .codeblock code{font-size:15px;padding:6px 14px}
+
+  .keys{display:grid;gap:10px;margin-bottom:10px}
+  .key{border:1px solid var(--line);border-radius:9px;padding:12px 16px;
+       display:flex;flex-direction:column;gap:2px;background:var(--paper)}
+  .key.secret{border-color:var(--pub)}
+  .key .kl{font-size:11px;font-weight:700;letter-spacing:.09em;color:var(--ink-3)}
+  .key.secret .kl{color:var(--pub)}
+  .key .kv{font-family:var(--mono);font-size:14px;font-weight:600;word-break:break-all}
+  .key .mask{color:var(--ink-3);letter-spacing:.02em}
+  .key .kd{font-size:12.5px;color:var(--ink-3)}
+
+  footer{border-top:1px solid var(--line);padding-top:22px;font-size:13.5px;
+         color:var(--ink-3);display:flex;flex-direction:column;gap:8px}
+  footer p{margin:0}
+  .cred{font-size:12px}
+
+  @media (max-width:620px){
+    .wrap{padding:26px 16px 64px;gap:32px}
+    .steps > li{padding:20px 18px 20px 18px}
+    .steps > li::before{position:static;margin-bottom:10px}
+    .note{padding:18px 18px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="../">← 進捗ダッシュボードへ戻る</a>
+    <h1><span class="sub">GLAVIS GROUP / SITE MIGRATION</span>
+      reCAPTCHA 設定マニュアル</h1>
+    <p class="lead">お問い合わせフォームへのスパム対策として、Google の reCAPTCHA を設置します。
+      グラビス様にてキーを取得いただき、ITLINE がサイトへ組み込みます。
+      所要時間は 5 分ほど、費用はかかりません。</p>
+    <div class="facts">
+      <div class="fact"><span class="l">ご対応いただく方</span><span class="v">グラビス様</span></div>
+      <div class="fact"><span class="l">期限</span><span class="v">2026年8月25日</span></div>
+      <div class="fact"><span class="l">所要時間</span><span class="v">5分程度</span></div>
+      <div class="fact"><span class="l">費用</span><span class="v">無料</span></div>
+    </div>
+  </header>
+
+  <section class="note tip">
+    <h2>はじめにご確認ください</h2>
+    <ul>
+      <li><b>Google アカウントが必要です。</b>ご担当者様の個人アカウントではなく、
+        <b>会社で共有されているアカウント</b>でのご登録をおすすめします。個人アカウントで登録すると、
+        ご担当者様の異動・退職時にキーの再発行や設定変更ができなくなります。</li>
+      <li>取得いただくのは <b>サイトキー</b> と <b>シークレットキー</b> の 2 つです。
+        どちらも ITLINE へご共有ください。</li>
+      <li>種類は <b>reCAPTCHA v3</b> を想定しています。訪問者に操作をさせず、
+        裏側で自動的に判定するため、フォームの離脱が起きにくいタイプです。
+        「私はロボットではありません」のチェックボックス型（v2）をご希望の場合は、
+        設定前に ITLINE までお知らせください。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>設定手順</h2>
+    <ol class="steps">
+      <li>
+        <h3>Google reCAPTCHA の登録ページを開く</h3>
+        <p>下記のページを開き、Google アカウントでログインします。</p>
+        <p class="url"><a href="https://www.google.com/recaptcha/admin/create" target="_blank" rel="noopener">https://www.google.com/recaptcha/admin/create</a></p>
+      </li>
+      <li>
+        <h3>ラベルを入力する</h3>
+        <p>管理画面で見分けるための名前です。後から変更できます。</p>
+        <p class="ex"><span class="exl">記入例</span><code>GLAVIS グループ</code></p>
+      </li>
+      <li>
+        <h3>reCAPTCHA タイプを選ぶ</h3>
+        <p><b>「スコアベース（v3）」</b>を選択してください。</p>
+        <p class="sub-note">画面によっては「reCAPTCHA v3」「Score based (v3)」と表示されます。</p>
+      </li>
+      <li>
+        <h3>ドメインを登録する</h3>
+        <p>下記の 2 つを、1 行ずつ追加してください。<b><code>https://</code> や <code>www.</code> は不要</b>です。
+          サブドメインは自動的に含まれます。</p>
+        <div class="codeblock"><code>glavis-hd.com</code><code>glavisarchitects.com</code></div>
+        <p class="sub-note">上記以外のドメインでもフォームを使用されている場合は、あわせて追加してください。
+          ご不明な場合は ITLINE までお問い合わせください。</p>
+      </li>
+      <li>
+        <h3>利用条件に同意して送信する</h3>
+        <p>「reCAPTCHA 利用条件に同意する」にチェックを入れ、<b>「送信」</b>を押します。</p>
+      </li>
+      <li>
+        <h3>2 つのキーをお控えいただく</h3>
+        <p>登録が完了すると、次の 2 つのキーが表示されます。この画面をコピーまたはスクリーンショットでお控えください。</p>
+        <div class="keys">
+          <div class="key"><span class="kl">サイトキー</span>
+            <span class="kv">6L<span class="mask">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span></span>
+            <span class="kd">サイトに埋め込まれる公開用のキーです</span></div>
+          <div class="key secret"><span class="kl">シークレットキー</span>
+            <span class="kv">6L<span class="mask">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span></span>
+            <span class="kd">サーバー側でのみ使用する非公開のキーです</span></div>
+        </div>
+        <p class="sub-note">いずれも <code>6L</code> から始まる 40 文字程度の文字列です。
+          あとから <a href="https://www.google.com/recaptcha/admin" target="_blank" rel="noopener">管理画面</a>
+          の「設定」からいつでも確認できます。</p>
+      </li>
+      <li>
+        <h3>ITLINE へキーをご共有いただく</h3>
+        <p>2 つのキーを Teams にてお送りください。</p>
+        <p class="sub-note"><b>シークレットキーは非公開の情報です。</b>
+          Teams のプライベートチャットなど、関係者のみが閲覧できる場所でのご共有をお願いいたします。
+          公開のチャネルへの投稿や、外部へのメール本文への記載はお控えください。</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="note">
+    <h2>このあとの流れ</h2>
+    <ul>
+      <li>ITLINE にて、各サイトのお問い合わせフォームと資料ダウンロードフォームに reCAPTCHA を組み込みます。</li>
+      <li>公開前のテスト環境で、フォームが正常に送信できること、迷惑送信がブロックされることを確認します。</li>
+      <li>設置後は、画面右下に Google の小さなバッジが表示されます。これは reCAPTCHA の利用規約上、
+        表示するか、代わりに規約へのリンクをフォーム付近に記載する必要があるものです。
+        表示位置が気になる場合は調整いたしますので、ITLINE までお知らせください。</li>
+    </ul>
+  </section>
+
+  <section class="note warn">
+    <h2>よくあるつまずき</h2>
+    <dl>
+      <dt>ドメインに <code>https://</code> を付けて登録してしまった</dt>
+      <dd>正しく動作しません。管理画面の「設定」から登録し直してください。</dd>
+      <dt>キーが 2 つとも同じに見える</dt>
+      <dd>どちらも <code>6L</code> から始まるため似て見えますが、別の文字列です。
+        画面の見出し（サイトキー／シークレットキー）とセットでお控えください。</dd>
+      <dt>登録した Google アカウントが分からなくなった</dt>
+      <dd>キーの再発行が必要になります。ITLINE までご連絡ください。</dd>
+      <dt>v2（チェックボックス型）で登録してしまった</dt>
+      <dd>そのままでも設置は可能です。ITLINE までお知らせいただければ、v2 向けの実装に切り替えます。</dd>
+    </dl>
+  </section>
+
+  <footer>
+    <p>ご不明な点は Teams、またはお電話にて遠慮なくお問い合わせください。</p>
+    <p class="cred">株式会社 ITLINE　GLAVIS グループ サイト移行プロジェクト</p>
+    <p><a class="back" href="../">← 進捗ダッシュボードへ戻る</a></p>
+  </footer>
+</div>
+</body>
+</html>
