@@ -207,6 +207,9 @@
   .sdom{font-size:12px}
   .tagtable{display:flex;flex-direction:column;border:1px solid var(--line);
             border-radius:9px;overflow:hidden;margin:0 0 10px}
+  .tagtable .tr3{grid-template-columns:1.1fr 2fr}
+  .tagtable .th3{grid-template-columns:1.1fr 2fr;background:var(--accent-soft);
+                 font-weight:700;font-size:11.5px;letter-spacing:.06em;color:var(--accent-ink)}
   .tagtable .tr{display:grid;grid-template-columns:1.5fr 1.4fr 1.1fr;gap:10px;
                 padding:9px 14px;font-size:13.5px;align-items:center;
                 border-bottom:1px solid var(--line-soft);background:var(--card)}
@@ -216,7 +219,8 @@
   .tagtable .ex2{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
   @media (max-width:620px){
     .tagtable .tr{grid-template-columns:1fr;gap:2px}
-    .tagtable .th{display:none}
+    .tagtable .th,.tagtable .th3{display:none}
+    .tagtable .tr3{grid-template-columns:1fr}
     .tagtable .tr{padding:11px 14px}
   }
 </style>
@@ -247,13 +251,41 @@
       分かる範囲でお送りいただければ、残りは ITLINE 側でも現行サイトを確認いたします。</p>
   </section>
 
+  <section class="note tip">
+    <h2>ソースに <code>G-</code> が見つからない理由</h2>
+    <p>ITLINE にて 3 サイトの HTML ソースを確認したところ、<b>いずれも Google タグマネージャー（GTM）
+      経由でタグを読み込む構成</b>になっておりました。この場合、GA4 の測定 ID は
+      <b>GTM のコンテナの中で管理されている</b>ため、サイトの HTML ソースには
+      <code>G-</code> が現れません。設置されていないわけではございませんのでご安心ください。</p>
+    <p>ソースから確認できたコンテナは下記のとおりです。</p>
+    <div class="tagtable">
+      <div class="tr th3"><span>サイト</span><span>読み込まれている GTM コンテナ</span></div>
+      <div class="tr tr3"><span>ホールディングス</span>
+        <span><code>GTM-MTQ27JHK</code>　<code>GTM-PR2QHTL</code></span></div>
+      <div class="tr tr3"><span>グラビス・アーキテクツ</span>
+        <span><code>GTM-MTQ27JHK</code>　<code>GTM-WLJ4JZX</code></span></div>
+      <div class="tr tr3"><span>採用サイト</span>
+        <span><code>GTM-MTQ27JHK</code>　<code>GTM-PR2QHTL</code></span></div>
+    </div>
+    <p class="sub-note"><code>GTM-MTQ27JHK</code> は 3 サイト共通で読み込まれており、
+      グループ全体用のコンテナと思われます。各サイト固有のコンテナがもう 1 つ入っている構成です。</p>
+    <p><b>そのため、ご対応いただきたいのは次のいずれかです。</b></p>
+    <ul>
+      <li><b>GTM の管理画面へ ITLINE を招待いただく（最も早く確実です）</b><br>
+        コンテナごとの権限付与で結構です。招待先のアカウントは別途ご案内いたします。
+        下のフォームの「連絡事項」に、その旨をご記入ください。</li>
+      <li><b>GTM の中を確認して、GA4 測定 ID と広告タグをお知らせいただく</b><br>
+        手順は下記「方法 2」をご覧ください。</li>
+    </ul>
+  </section>
+
   <section>
     <h2>確認方法</h2>
-    <p class="lead2">下記のいずれかの方法でご確認いただけます。
-      <b>方法1が最も確実</b>ですが、管理画面をお使いの場合は方法2・3が簡単です。</p>
+    <p class="lead2">今回の 3 サイトは GTM 経由の構成のため、<b>方法 2（タグマネージャーの中を確認する）が
+      GA4 測定 ID への近道</b>です。方法 1 はサイトに直接埋め込まれたタグの確認に使えます。</p>
     <ol class="steps">
       <li>
-        <h3>サイトのソースから探す（最も確実）</h3>
+        <h3>サイトのソースから探す</h3>
         <p>対象サイトをブラウザで開き、<code>Ctrl</code> + <code>U</code>
           （Mac は <code>⌘</code> + <code>option</code> + <code>U</code>）でソースを表示します。
           続いて <code>Ctrl</code> + <code>F</code> で下記の文字列を検索してください。</p>
@@ -269,20 +301,29 @@
         </div>
         <p class="sub-note">見つかった行をそのままコピーしてお送りいただいて構いません。
           ID だけ抜き出していただく必要はありません。</p>
+        <p class="sub-note"><b>今回の 3 サイトでは <code>GTM-</code> のみが見つかり、<code>G-</code> は
+          出てきません。</b>GA4 の設定が GTM の中にあるためです。この方法では GA4 測定 ID までは
+          たどり着けませんので、方法 2 へお進みください。</p>
+      </li>
+      <li>
+        <h3>タグマネージャーの中を確認する（今回はこちら）</h3>
+        <p><a href="https://tagmanager.google.com/" target="_blank" rel="noopener">tagmanager.google.com</a>
+          にログインし、上の表のコンテナを開きます。左メニューの<b>「タグ」</b>を選ぶと、
+          設定されているタグの一覧が表示されます。</p>
+        <p>一覧の中から <b>「Google タグ」</b>または<b>「GA4 設定」</b>という種類のタグを開くと、
+          <b>測定 ID</b>（<code>G-</code> から始まる文字列）が確認できます。</p>
+        <p class="sub-note">同じ一覧に、Google 広告のコンバージョンタグや Yahoo!・Microsoft 広告の
+          タグが並んでいる場合もございます。<b>タグ一覧の画面をスクリーンショットでお送りいただく形でも
+          結構です。</b>その場合はフォームの「そのほか埋め込まれているタグ」に
+          「スクリーンショットを別途送付」とご記入ください。</p>
       </li>
       <li>
         <h3>Google アナリティクスの管理画面から確認する</h3>
         <p><a href="https://analytics.google.com/" target="_blank" rel="noopener">analytics.google.com</a>
           にログインし、左下の<b>「管理」</b>→<b>「データストリーム」</b>→対象のストリームを開くと、
           右上に<b>測定 ID</b>（<code>G-</code> から始まる文字列）が表示されます。</p>
-        <p class="sub-note">サイトごとにストリームが分かれている場合は、それぞれの測定 ID をご確認ください。</p>
-      </li>
-      <li>
-        <h3>Google タグマネージャーの管理画面から確認する</h3>
-        <p><a href="https://tagmanager.google.com/" target="_blank" rel="noopener">tagmanager.google.com</a>
-          にログインすると、画面上部に<b>コンテナ ID</b>（<code>GTM-</code> から始まる文字列）が表示されます。</p>
-        <p class="sub-note">タグマネージャーをご利用の場合、個別の広告タグはこの中で管理されていることが多く、
-          コンテナ ID のご共有だけで足りる場合があります。</p>
+        <p class="sub-note">サイトごとにストリームが分かれている場合は、それぞれの測定 ID をご確認ください。
+          どのストリームがどのサイトか分かりにくい場合は、ストリームの URL 欄をご確認ください。</p>
       </li>
       <li>
         <h3>管理画面への権限付与でも対応できます</h3>
@@ -328,7 +369,8 @@
             <div class="field">
               <label for="f-hd-gtm">GTM コンテナ ID</label>
               <input id="f-hd-gtm" type="text" spellcheck="false" autocomplete="off"
-                     placeholder="GTM-XXXXXXX">
+                     value="GTM-MTQ27JHK / GTM-PR2QHTL">
+              <span class="hint">ITLINE にて現行サイトから確認済みです。相違があればご修正ください。</span>
             </div>
             <div class="field">
               <label for="f-hd-etc">そのほか埋め込まれているタグ <span class="opt">任意</span></label>
@@ -346,7 +388,8 @@
             <div class="field">
               <label for="f-ga-gtm">GTM コンテナ ID</label>
               <input id="f-ga-gtm" type="text" spellcheck="false" autocomplete="off"
-                     placeholder="GTM-XXXXXXX">
+                     value="GTM-MTQ27JHK / GTM-WLJ4JZX">
+              <span class="hint">ITLINE にて現行サイトから確認済みです。相違があればご修正ください。</span>
             </div>
             <div class="field">
               <label for="f-ga-etc">そのほか埋め込まれているタグ <span class="opt">任意</span></label>
@@ -355,7 +398,7 @@
             </div>
           </fieldset>
           <fieldset class="siteset">
-            <legend><span class="sname">採用サイト</span><code class="sdom">現在は glavis-hd.com 配下</code></legend>
+            <legend><span class="sname">採用サイト</span><code class="sdom">glavis-hd.com/recruit/</code></legend>
             <div class="field">
               <label for="f-rc-ga4">GA4 測定 ID</label>
               <input id="f-rc-ga4" type="text" spellcheck="false" autocomplete="off"
@@ -364,7 +407,8 @@
             <div class="field">
               <label for="f-rc-gtm">GTM コンテナ ID</label>
               <input id="f-rc-gtm" type="text" spellcheck="false" autocomplete="off"
-                     placeholder="GTM-XXXXXXX">
+                     value="GTM-MTQ27JHK / GTM-PR2QHTL">
+              <span class="hint">ITLINE にて現行サイトから確認済みです。相違があればご修正ください。</span>
             </div>
             <div class="field">
               <label for="f-rc-etc">そのほか埋め込まれているタグ <span class="opt">任意</span></label>
