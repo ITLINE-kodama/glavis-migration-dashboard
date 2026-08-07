@@ -140,6 +140,40 @@
   .key .mask{color:var(--ink-3);letter-spacing:.02em}
   .key .kd{font-size:12.5px;color:var(--ink-3)}
 
+  /* ---------- キー送信フォーム ---------- */
+  #keyform{display:flex;flex-direction:column;gap:14px;margin:14px 0 12px;
+           background:var(--paper);border:1px solid var(--line);
+           border-radius:10px;padding:20px}
+  .field{display:flex;flex-direction:column;gap:5px}
+  .field label{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .req{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--pub);
+       background:var(--pub-soft);border-radius:4px;padding:1px 6px}
+  .opt{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--ink-3);
+       background:var(--idle-soft);border-radius:4px;padding:1px 6px}
+  .field input,.field select,.field textarea{font-family:inherit;font-size:14.5px;
+       color:var(--ink);background:var(--card);border:1px solid var(--line);
+       border-radius:8px;padding:9px 12px;width:100%}
+  #f-site,#f-secret{font-family:var(--mono);font-size:14px}
+  .field textarea{resize:vertical;line-height:1.7}
+  .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{
+       outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  .field input[aria-invalid="true"]{border-color:var(--pub);background:var(--pub-soft)}
+  .hint{font-size:12.5px;color:var(--ink-3)}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:2px}
+  .btn{font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;
+       border-radius:99px;padding:10px 22px;border:1px solid var(--accent);
+       background:transparent;color:var(--accent)}
+  .btn:hover{background:var(--accent-soft)}
+  .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));
+       border-color:transparent;color:#04252a}
+  .btn.primary:hover{filter:brightness(1.06)}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .formmsg{margin:0;font-size:13.5px;font-weight:600;min-height:1.4em}
+  .formmsg.err{color:var(--pub)}
+  .formmsg.ok{color:var(--ok)}
+  .fallback{width:100%;height:220px;margin-top:10px;font-family:var(--mono);
+            font-size:13px;border:1px solid var(--line);border-radius:8px;padding:10px}
+
   footer{border-top:1px solid var(--line);padding-top:22px;font-size:13.5px;
          color:var(--ink-3);display:flex;flex-direction:column;gap:8px}
   footer p{margin:0}
@@ -232,11 +266,59 @@
           の「設定」からいつでも確認できます。</p>
       </li>
       <li>
-        <h3>ITLINE へキーをご共有いただく</h3>
-        <p>2 つのキーを Teams にてお送りください。</p>
-        <p class="sub-note"><b>シークレットキーは非公開の情報です。</b>
-          Teams のプライベートチャットなど、関係者のみが閲覧できる場所でのご共有をお願いいたします。
-          公開のチャネルへの投稿や、外部へのメール本文への記載はお控えください。</p>
+        <h3>下記フォームから ITLINE へお送りいただく</h3>
+        <p>入力して「メールで送信する」を押すと、宛先・件名・本文が入力済みの状態で
+          お使いのメールソフトが立ち上がります。内容をご確認のうえ送信してください。</p>
+        <form id="keyform" novalidate>
+          <div class="field">
+            <label for="f-name">貴社名・ご担当者名 <span class="req">必須</span></label>
+            <input id="f-name" name="name" type="text" autocomplete="organization"
+                   placeholder="グラビス株式会社　岡田" required>
+          </div>
+          <div class="field">
+            <label for="f-site">サイトキー <span class="req">必須</span></label>
+            <input id="f-site" name="site" type="text" spellcheck="false" autocomplete="off"
+                   placeholder="6L から始まる文字列" required>
+            <span class="hint">Google の管理画面に表示された「サイトキー」をそのまま貼り付けてください。</span>
+          </div>
+          <div class="field">
+            <label for="f-secret">シークレットキー <span class="req">必須</span></label>
+            <input id="f-secret" name="secret" type="text" spellcheck="false" autocomplete="off"
+                   placeholder="6L から始まる文字列" required>
+          </div>
+          <div class="field">
+            <label for="f-type">reCAPTCHA の種類</label>
+            <select id="f-type" name="type">
+              <option value="v3（スコアベース）">v3（スコアベース）</option>
+              <option value="v2（チェックボックス）">v2「私はロボットではありません」チェックボックス</option>
+              <option value="種類がわからない">わからない・確認したい</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-account">登録に使用した Google アカウント <span class="opt">任意</span></label>
+            <input id="f-account" name="account" type="text" autocomplete="off"
+                   placeholder="example@glavis-hd.com">
+            <span class="hint">後日キーを再発行する際に必要になります。差し支えなければご記入ください。</span>
+          </div>
+          <div class="field">
+            <label for="f-memo">連絡事項 <span class="opt">任意</span></label>
+            <textarea id="f-memo" name="memo" rows="3"
+                      placeholder="ご不明点やご要望がありましたらご記入ください"></textarea>
+          </div>
+          <div class="actions">
+            <button type="submit" class="btn primary">メールで送信する</button>
+            <button type="button" class="btn" id="copybtn">内容をコピーする</button>
+          </div>
+          <p class="formmsg" id="formmsg" role="status" aria-live="polite"></p>
+        </form>
+        <p class="sub-note"><b>入力内容が外部のサービスに保存されることはありません。</b>
+          お使いのメールソフトを起動して送信する仕組みのため、キーがこのページから
+          どこかへ自動的に送られることはありません。</p>
+        <p class="sub-note">メールソフトが立ち上がらない場合は「内容をコピーする」を押し、
+          Teams のプライベートチャットに貼り付けてお送りください。
+          <b>シークレットキーは非公開の情報です。</b>公開チャネルへの投稿はお控えください。</p>
+        <p class="sub-note">送信先：<code>tsutomu.kado@mocamoco.com</code>（加堂）／
+          <code>kodama@itline.co.jp</code>（小玉）</p>
       </li>
     </ol>
   </section>
@@ -273,5 +355,80 @@
     <p><a class="back" href="../">← 進捗ダッシュボードへ戻る</a></p>
   </footer>
 </div>
+
+<script>
+(function(){
+  var TO = "tsutomu.kado@mocamoco.com,kodama@itline.co.jp";
+  var form = document.getElementById("keyform");
+  var msg  = document.getElementById("formmsg");
+  function val(id){ return document.getElementById(id).value.trim(); }
+  function say(text, cls){ msg.textContent = text; msg.className = "formmsg " + (cls || ""); }
+
+  // 必須項目を確認する。空欄があれば最初の項目へ移動させる。
+  function check(){
+    var req = [["f-name","貴社名・ご担当者名"],["f-site","サイトキー"],["f-secret","シークレットキー"]];
+    var missing = [];
+    req.forEach(function(r){
+      var el = document.getElementById(r[0]), empty = !el.value.trim();
+      el.setAttribute("aria-invalid", empty ? "true" : "false");
+      if (empty) missing.push(r[1]);
+    });
+    if (missing.length){
+      say(missing.join("、") + "をご入力ください。", "err");
+      for (var i = 0; i < req.length; i++){
+        if (!val(req[i][0])){ document.getElementById(req[i][0]).focus(); break; }
+      }
+      return false;
+    }
+    if (val("f-site") === val("f-secret")){
+      say("サイトキーとシークレットキーが同じ内容です。管理画面の見出しをご確認ください。", "err");
+      return false;
+    }
+    return true;
+  }
+
+  function body(){
+    var L = ["株式会社ITLINE ご担当者様", "",
+             "reCAPTCHA のキーをお送りいたします。", "",
+             "■ 貴社名・ご担当者名", val("f-name"), "",
+             "■ reCAPTCHA の種類", document.getElementById("f-type").value, "",
+             "■ サイトキー", val("f-site"), "",
+             "■ シークレットキー", val("f-secret"), ""];
+    if (val("f-account")) L.push("■ 登録に使用した Google アカウント", val("f-account"), "");
+    if (val("f-memo"))    L.push("■ 連絡事項", val("f-memo"), "");
+    L.push("以上、よろしくお願いいたします。");
+    return L.join("\n");
+  }
+
+  var SUBJECT = "【GLAVIS】reCAPTCHA キーのご共有";
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if (!check()) return;
+    location.href = "mailto:" + TO + "?subject=" + encodeURIComponent(SUBJECT)
+                  + "&body=" + encodeURIComponent(body());
+    say("メールソフトを起動しました。内容をご確認のうえ送信してください。"
+      + "立ち上がらない場合は「内容をコピーする」をご利用ください。", "ok");
+  });
+
+  document.getElementById("copybtn").addEventListener("click", function(){
+    if (!check()) return;
+    var text = "宛先: " + TO + "\n件名: " + SUBJECT + "\n\n" + body();
+    function fallback(){
+      // クリップボードが使えない環境では、選択してコピーできる形で表示する
+      var ta = form.querySelector(".fallback") || document.createElement("textarea");
+      ta.className = "fallback"; ta.value = text;
+      if (!ta.parentNode) form.appendChild(ta);
+      ta.select();
+      say("自動コピーできませんでした。下の枠内を選択してコピーしてください。", "err");
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        say("コピーしました。Teams のプライベートチャットに貼り付けてお送りください。", "ok");
+      }, fallback);
+    } else { fallback(); }
+  });
+})();
+</script>
 </body>
 </html>
