@@ -227,7 +227,7 @@
   /* ---------- table ---------- */
   .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;
            background:var(--card);box-shadow:var(--shadow)}
-  table{border-collapse:collapse;width:100%;min-width:900px}
+  table{border-collapse:collapse;width:100%;min-width:980px}
   thead th{position:sticky;top:0;background:var(--card);text-align:left;
            font-size:11px;letter-spacing:.1em;color:var(--ink-3);font-weight:700;
            padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap;z-index:2}
@@ -248,15 +248,15 @@
   tr[data-u="done"]:hover{background:var(--ok-soft)}
   tr[data-u="done"] td.id{border-left-color:var(--ok);color:var(--ok);font-weight:700}
   tr[data-u="done"] td.nm{color:var(--ink-3)}
-  tr[data-u="done"] td.due{color:var(--ok)}
+  tr[data-u="done"] td.due,tr[data-u="done"] td.rel{color:var(--ok)}
   .chk{color:var(--ok);font-weight:700;margin-right:3px}
   tr[data-pub="1"] td.nm{color:var(--pub);font-weight:700}
   tr[data-pub="1"] td.id{border-left-color:var(--pub)}
-  td.due{font-family:var(--mono);font-variant-numeric:tabular-nums;
+  td.due,td.rel{font-family:var(--mono);font-variant-numeric:tabular-nums;
          font-size:12.5px;white-space:nowrap}
-  td.due .d{display:block;font-size:11px;color:var(--ink-3)}
-  tr[data-u="late"] td.due{color:var(--late);font-weight:700}
-  tr[data-u="soon"] td.due{color:var(--work);font-weight:700}
+  td.rel{color:var(--ink-3)}
+  tr[data-u="late"] td.due,tr[data-u="late"] td.rel{color:var(--late);font-weight:700}
+  tr[data-u="soon"] td.due,tr[data-u="soon"] td.rel{color:var(--work);font-weight:700}
   td.nm{min-width:280px}
   td.nm .note{display:block;font-size:12px;color:var(--ink-3);margin-top:3px}
   td.nm .note.hi{color:var(--fix);font-weight:600}
@@ -333,6 +333,7 @@
           <th>対象</th>
           <th><button class="th" data-sort="status">ステータス</button></th>
           <th><button class="th" data-sort="due">期限</button></th>
+          <th><button class="th" data-sort="due">残日数</button></th>
           <th>カテゴリ</th>
         </tr></thead>
         <tbody id="tb"></tbody>
@@ -531,7 +532,8 @@ function render(){
       <td><span class="pill ${whoCls(t.who)}">${esc(t.who)}</span></td>
       <td style="font-size:12.5px;color:var(--ink-3);white-space:nowrap">${esc(t.target)}</td>
       <td><span class="pill p-${esc(t.status)}">${esc(t.status)}</span></td>
-      <td class="due">${fmt(t.due)}<span class="d">${rel}</span></td>
+      <td class="due">${fmt(t.due)}</td>
+      <td class="rel">${rel}</td>
       <td style="font-size:12.5px;color:var(--ink-3);white-space:nowrap">${esc(t.cat)}</td>
     </tr>`;
   }).join('');
