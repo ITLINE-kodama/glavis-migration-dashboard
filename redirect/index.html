@@ -91,11 +91,25 @@
   .gnav a.gl-link{font-size:13px;font-weight:600;text-decoration:none;
             color:var(--ink-2);padding:6px 12px;border-radius:8px;white-space:nowrap}
   .gnav a.gl-link:hover{background:var(--line-soft);color:var(--accent)}
-  .gnav a.gl-link[aria-current="page"]{background:var(--accent-soft);
-            color:var(--accent-ink);font-weight:700}
   .gnav a.gl-link.on{color:var(--accent);background:var(--accent-soft)}
+  /* 左＝同じページ内の見出しへ移動（#付き・枠なし）
+     右＝別ページへの切替（ラベル付きのセグメント）。見た目で役割を分ける */
+  .gnav nav a.gl-link{padding:6px 9px}
+  .gnav a.gl-sec::before{content:"#";color:var(--ink-3);font-weight:700;
+        margin-right:3px;font-family:var(--mono);font-size:12px}
+  .gnav a.gl-sec:hover::before,.gnav a.gl-sec.on::before{color:var(--accent)}
+  .glab{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--ink-3);
+        white-space:nowrap;flex:none}
   .gsep{width:1px;height:20px;background:var(--line);flex:none;margin:0 4px}
-  .gpages{margin-left:auto;display:flex;align-items:center;gap:2px;flex:none}
+  .gpages{margin-left:auto;display:flex;align-items:center;gap:3px;flex:none;
+          background:var(--line-soft);border:1px solid var(--line);
+          border-radius:99px;padding:3px 5px 3px 12px}
+  .gpages .glab{margin-right:4px}
+  .gpages a.gl-link{padding:5px 12px;border-radius:99px}
+  .gpages a.gl-link:hover{background:var(--card);color:var(--accent)}
+  .gpages a.gl-link[aria-current="page"]{background:var(--card);
+          color:var(--accent-ink);font-weight:700;
+          box-shadow:0 1px 3px rgba(20,38,61,.14)}
   /* --navh はナビの実高さ。読み込み時とリサイズ時にJSが更新する */
   :root{--navh:52px}
   section[id]{scroll-margin-top:calc(var(--navh) + 12px)}
@@ -103,6 +117,9 @@
     .gnav-in{padding:0 16px;gap:0 12px;min-height:48px}
     .gbrand{font-size:12.5px}
     .gnav a.gl-link{padding:6px 10px}
+    /* 狭い画面ではラベルを省く。セグメントの枠だけで区別できる */
+    .glab{display:none}
+    .gpages{padding:3px 5px}
   }
 
   *{box-sizing:border-box}
@@ -198,7 +215,7 @@
 </head>
 <body>
 
-<div class="gnav"><div class="gnav-in"><a class="gbrand" href="https://itline-kodama.github.io/glavis-migration-dashboard/">GLAVIS サイト移行</a><span class="gpages"><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/">進捗ダッシュボード</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/recaptcha/">reCAPTCHA設定</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/tracking/">計測タグ引き継ぎ</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/redirect/" aria-current="page">採用URL遷移先</a></span></div></div>
+<div class="gnav"><div class="gnav-in"><a class="gbrand" href="https://itline-kodama.github.io/glavis-migration-dashboard/">GLAVIS サイト移行</a><span class="gpages"><span class="glab">ページ切替</span><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/">ダッシュボード</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/recaptcha/">reCAPTCHA設定</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/tracking/">計測タグ引き継ぎ</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/redirect/" aria-current="page">採用URL遷移先</a></span></div></div>
 
 <div class="wrap">
   <header>
