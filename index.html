@@ -104,7 +104,8 @@
   .gnav a.gl-link.on{color:var(--accent);background:var(--accent-soft)}
   /* 左＝同じページ内の見出しへ移動（#付き・枠なし）
      右＝別ページへの切替（ラベル付きのセグメント）。見た目で役割を分ける */
-  .gnav nav a.gl-link{padding:6px 9px}
+  .gnav nav a.gl-link{padding:6px 7px}
+  .gnav-in{gap:0 10px}
   .gnav a.gl-sec::before{content:"#";color:var(--ink-3);font-weight:700;
         margin-right:3px;font-family:var(--mono);font-size:12px}
   .gnav a.gl-sec:hover::before,.gnav a.gl-sec.on::before{color:var(--accent)}
@@ -201,6 +202,38 @@
          justify-content:space-between}
   h2{font-size:18px}
   .shead p{margin:0;font-size:13px;color:var(--ink-3);max-width:62ch}
+  /* ---------- プレビュー ---------- */
+  .pv{display:flex;flex-direction:column;gap:12px}
+  .pv-auth{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;
+           background:var(--accent-soft);border:1px solid var(--accent);
+           border-radius:10px;padding:12px 16px}
+  .pv-al{font-size:11px;font-weight:700;letter-spacing:.09em;color:var(--accent-ink)}
+  .pv-kv{display:inline-flex;align-items:center;gap:7px;font-size:13px}
+  .pv-kv b{font-size:11px;font-weight:700;color:var(--ink-3)}
+  .pv-kv code{font-family:var(--mono);font-size:13px;font-weight:600;
+              background:var(--card);border:1px solid var(--line);
+              border-radius:5px;padding:2px 9px;color:var(--ink);
+              user-select:all;word-break:break-all}
+  .cp{font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;
+      border:1px solid var(--accent);background:transparent;color:var(--accent);
+      border-radius:99px;padding:2px 10px;white-space:nowrap}
+  .cp:hover{background:var(--card)}
+  .cp:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .cp.done{background:var(--ok);border-color:var(--ok);color:var(--paper)}
+  .pv-note{font-size:12px;color:var(--ink-3)}
+  .pv-sites{display:grid;gap:10px;
+            grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+  .pv-card{display:flex;flex-direction:column;gap:3px;text-decoration:none;
+           background:var(--card);border:1px solid var(--line);border-radius:10px;
+           padding:14px 16px;box-shadow:var(--shadow);color:var(--ink)}
+  .pv-card:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .pv-card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .pv-name{font-size:14.5px;font-weight:700}
+  .pv-name::after{content:" ↗";color:var(--accent);font-size:12px}
+  .pv-url{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);
+          word-break:break-all}
+  .pv-cav{margin:0;font-size:12.5px;color:var(--ink-3)}
+
   .legend b{font-weight:700;margin-left:11px;white-space:nowrap}
   .lg-done{color:var(--ok)} .lg-fix{color:var(--fix)} .lg-pub{color:var(--pub)}
   .lg-late{color:var(--late)} .lg-soon{color:var(--work)}
@@ -378,7 +411,7 @@
 </head>
 <body>
 
-<div class="gnav"><div class="gnav-in"><a class="gbrand" href="https://itline-kodama.github.io/glavis-migration-dashboard/">GLAVIS サイト移行</a><nav aria-label="ページ内の見出し"><a class="gl-link gl-sec" href="#sec-schedule" data-sec="sec-schedule">スケジュール</a><a class="gl-link gl-sec" href="#sec-release" data-sec="sec-release">リリース別</a><a class="gl-link gl-sec" href="#sec-progress" data-sec="sec-progress">全体の進捗</a><a class="gl-link gl-sec" href="#sec-tasks" data-sec="sec-tasks">タスク一覧</a></nav><span class="gpages"><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/" aria-current="page">ダッシュボード</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/recaptcha/">reCAPTCHA設定</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/tracking/">計測タグ</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/redirect/">採用URL遷移先</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/sitemap/">サイトマップ案</a></span></div></div>
+<div class="gnav"><div class="gnav-in"><a class="gbrand" href="https://itline-kodama.github.io/glavis-migration-dashboard/">GLAVIS サイト移行</a><nav aria-label="ページ内の見出し"><a class="gl-link gl-sec" href="#sec-preview" data-sec="sec-preview">プレビュー</a><a class="gl-link gl-sec" href="#sec-schedule" data-sec="sec-schedule">スケジュール</a><a class="gl-link gl-sec" href="#sec-release" data-sec="sec-release">リリース別</a><a class="gl-link gl-sec" href="#sec-progress" data-sec="sec-progress">全体の進捗</a><a class="gl-link gl-sec" href="#sec-tasks" data-sec="sec-tasks">タスク一覧</a></nav><span class="gpages"><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/" aria-current="page">ダッシュボード</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/recaptcha/">reCAPTCHA</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/tracking/">計測タグ</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/redirect/">リダイレクト</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/sitemap/">サイトマップ</a></span></div></div>
 
 <div class="wrap">
   <header>
@@ -392,6 +425,36 @@
     </div>
     <div class="tiles" id="tiles"></div>
   </header>
+
+  <section id="sec-preview">
+    <div class="shead">
+      <h2>プレビュー（移行のみ版）</h2>
+      <p>2026年8月10日提供。現行構成のままWordPressへ移行した状態です。
+        公開前のご確認用のため、全ページに Basic 認証をかけています。</p>
+    </div>
+    <div class="pv">
+      <div class="pv-auth">
+        <span class="pv-al">Basic認証</span>
+        <span class="pv-kv"><b>ID</b><code>glavis</code>
+          <button type="button" class="cp" data-copy="glavis">コピー</button></span>
+        <span class="pv-kv"><b>Pass</b><code>SHgCv4AVkfbfpJqLmcQU</code>
+          <button type="button" class="cp" data-copy="SHgCv4AVkfbfpJqLmcQU">コピー</button></span>
+        <span class="pv-note">3サイト共通・以前と同じものです</span>
+      </div>
+      <div class="pv-sites">
+        <a class="pv-card" href="https://preview2.glavis-hd.com/" target="_blank" rel="noopener">
+          <span class="pv-name">GLAVISグループ（HD）</span>
+          <span class="pv-url">preview2.glavis-hd.com</span></a>
+        <a class="pv-card" href="https://preview2.glavisarchitects.com/" target="_blank" rel="noopener">
+          <span class="pv-name">グラビス・アーキテクツ（GA）</span>
+          <span class="pv-url">preview2.glavisarchitects.com</span></a>
+        <a class="pv-card" href="https://preview2.glavis-hd.com/recruit/ga/" target="_blank" rel="noopener">
+          <span class="pv-name">GA採用サイト</span>
+          <span class="pv-url">preview2.glavis-hd.com/recruit/ga/</span></a>
+      </div>
+      <p class="pv-cav">※ フォームの送信は、メール設定が未完了のため現時点では動作しません（設定後にあらためてご確認いただきます）。</p>
+    </div>
+  </section>
 
   <section id="sec-schedule">
     <div class="shead">
@@ -699,6 +762,27 @@ document.querySelectorAll('.chip[data-k="rel"]').forEach(b =>
   b.addEventListener('click', syncRelButtons));
 
 render();
+
+// Basic認証のID・パスをワンクリックでコピーできるようにする
+document.querySelectorAll('.cp').forEach(function(b){
+  b.addEventListener('click', function(){
+    var ok = function(){
+      var prev = b.textContent;
+      b.textContent = 'コピーしました'; b.classList.add('done');
+      setTimeout(function(){ b.textContent = prev; b.classList.remove('done'); }, 1600);
+    };
+    var fallback = function(){
+      // クリップボードが使えない環境では、対象の文字列を選択状態にする
+      var code = b.previousElementSibling;
+      var rng = document.createRange(); rng.selectNodeContents(code);
+      var sel = getSelection(); sel.removeAllRanges(); sel.addRange(rng);
+      b.textContent = '選択しました';
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(b.dataset.copy).then(ok, fallback);
+    } else { fallback(); }
+  });
+});
 </script>
 
 <script>
