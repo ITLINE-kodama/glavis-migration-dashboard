@@ -184,7 +184,8 @@
         font-size:11.5px;color:#6b7a8d;padding:4px 12px;font-family:var(--mono)}
 
   /* ---------- GAサイト再現ヘッダー ---------- */
-  .ga{position:relative;background:#f1fbff;overflow:hidden}
+  .ga{position:relative;background:#f1fbff;overflow:hidden;
+      transition:min-height .3s cubic-bezier(.215,.61,.355,1)}
   .ga-head{display:flex;align-items:center;justify-content:space-between;
            height:96px;padding:0 26px 0 34px;position:relative;z-index:30}
   .ga-logo{width:150px;flex:none}
@@ -211,29 +212,54 @@
         border-radius:24px;background:#09102c;color:#fff;
         font-family:"BIZ UDPGothic","BIZ UDGothic",var(--jp);font-size:13px;font-weight:700}
 
-  /* メガメニュー */
+  /* メガメニュー。カード型にはせず、GA現行サイトの作法
+     （英字ラベル＋淡い大きな英字・1本罫のリンク・ネイビーのピルボタン）に合わせる */
   .mega{position:absolute;left:0;right:0;top:96px;background:#fff;z-index:25;
-        border-top:1px solid #d7e6f0;box-shadow:0 18px 32px rgba(9,16,44,.13);
-        opacity:0;visibility:hidden;transform:translateY(-8px);padding:26px 34px 30px;
+        box-shadow:0 20px 34px rgba(9,16,44,.12);
+        opacity:0;visibility:hidden;transform:translateY(-8px);
+        padding:34px 34px 34px 40px;overflow:hidden;
         transition:opacity .3s cubic-bezier(.215,.61,.355,1),
                    transform .3s cubic-bezier(.215,.61,.355,1),visibility .3s}
   .mega.on{opacity:1;visibility:visible;transform:none}
-  .mega .mh{font-family:"BIZ UDPGothic","BIZ UDGothic",var(--jp);font-weight:700;
-        font-size:13px;color:#0079b0;letter-spacing:.06em;margin-bottom:14px;
-        display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  .mega .mh em{font-style:normal;color:#6b7a8d;font-size:11px;font-weight:400;letter-spacing:0}
-  .mega ul{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:10px 22px}
-  .mega li a{display:flex;align-items:center;gap:9px;text-decoration:none;color:#09102c;
-        font-size:13.5px;font-weight:500;padding:9px 12px;border:1px solid #d7e6f0;
-        border-radius:6px;background:#fbfdff;transition:.2s}
-  .mega li a::before{content:'';width:5px;height:5px;border-right:2px solid #00a0e9;
-        border-top:2px solid #00a0e9;transform:rotate(45deg);flex:none}
-  .mega li a:hover{background:#09102c;color:#fff;border-color:#09102c}
-  .mega li a:hover::before{border-color:#fff}
-  .mega li a .sl{font-family:var(--mono);font-size:10.5px;color:#8797ad;margin-left:auto}
-  .mega li a:hover .sl{color:#9fd8f5}
-  .mega .new{font-size:9.5px;font-weight:700;color:#fff;background:#00a0e9;
-        border-radius:3px;padding:0 5px;flex:none}
+  .mega::before{content:'';position:absolute;left:40px;right:34px;top:0;height:1px;
+        background:rgba(9,16,44,.12)}
+  .mega .mwrap{display:flex;gap:44px;position:relative;z-index:2}
+
+  /* 左：カテゴリの見出しと一覧へのボタン */
+  .mega .lead{width:250px;flex:none}
+  .mega .lead .en{display:block;font-size:11px;font-weight:700;letter-spacing:.22em;
+        color:#00a0e9;font-family:Arial,Helvetica,sans-serif}
+  .mega .lead h4{margin:8px 0 10px;font-size:21px;line-height:1.4;color:#09102c;
+        font-family:"BIZ UDPGothic","BIZ UDGothic",var(--jp);font-weight:700}
+  .mega .lead p{font-size:11.5px;line-height:1.85;color:#5b6b80;margin-bottom:18px}
+  .mega .lead .btn{display:inline-flex;align-items:center;position:relative;
+        background:#09102c;color:#fff;border-radius:100px;padding:9px 52px 9px 24px;
+        font-family:"BIZ UDPGothic","BIZ UDGothic",var(--jp);font-size:14px;font-weight:700;
+        text-decoration:none;transition:background .3s cubic-bezier(.215,.61,.355,1)}
+  .mega .lead .btn:hover{background:#00a0e9}
+  .mega .lead .btn .ar{position:absolute;right:20px;width:17px;height:8px;color:#fff;
+        transition:transform .3s cubic-bezier(.215,.61,.355,1)}
+  .mega .lead .btn:hover .ar{transform:translateX(4px)}
+
+  /* 右：1本罫のリンク一覧。項目数が増えても縦に伸びすぎないよう3列まで折り返す */
+  .mega ul{flex:1;list-style:none;display:grid;align-content:start;gap:0 36px;
+        grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+  .mega li{border-bottom:1px solid rgba(9,16,44,.12)}
+  .mega li a{display:flex;align-items:center;gap:10px;text-decoration:none;color:#09102c;
+        font-family:"BIZ UDPGothic","BIZ UDGothic",var(--jp);font-size:14px;font-weight:700;
+        padding:13px 4px;transition:color .3s cubic-bezier(.215,.61,.355,1)}
+  .mega li a .lbl{flex:1}
+  .mega li a .ar{flex:none;width:17px;height:8px;color:inherit;
+        transition:transform .3s cubic-bezier(.215,.61,.355,1)}
+  .mega li a:hover{color:#00a0e9}
+  .mega li a:hover .ar{transform:translateX(4px)}
+  .mega .new{font-size:10px;font-weight:700;color:#fff;background:#00a0e9;
+        border-radius:100px;padding:1px 9px;flex:none;letter-spacing:.04em}
+
+  /* 背景の淡い英字（GA現行サイトの見せ方に合わせる） */
+  .mega .wm{position:absolute;right:40px;bottom:-18px;z-index:1;pointer-events:none;
+        font-family:Arial,Helvetica,sans-serif;font-size:70px;font-weight:700;
+        letter-spacing:.06em;color:#f1fbff;line-height:1;white-space:nowrap}
 
   /* B案：下層への導線がないことを示す吹き出し */
   .nopop{position:absolute;left:50%;top:88px;transform:translateX(-50%) translateY(-6px);
@@ -596,7 +622,12 @@
 </div>
 
 <script>
-var MEGA = {company:{t:'企業情報',n:'/company/',items:[['企業理念','/company/information/',0],['ご挨拶','/company/leadership/',0],['会社概要','/company/profile/',0],['沿革','/company/history/',0],['重点取組事項','/company/initiative/',0],['サステナビリティ','/company/sustainability/',0]]},service:{t:'事業内容',n:'/service/',items:[['ICT全体統制','/service/whole/',0],['計画フェーズ','/service/planning/',0],['調達フェーズ','/service/supplying/',0],['導入フェーズ','/service/implementing/',0],['運用・評価フェーズ','/service/reviewing/',0]]},knowledge:{t:'ナレッジ（仮称）',n:'4種の記事をここに集約します',items:[['Agenda／取組テーマ','/agenda/',1],['Case Study（事例）','/case/',0],['有識者インタビュー','/interview/',1],['お客様','/customer/',1],['インフォグラフィック','/agenda/download/',1]]},member:{t:'コンサルタント',n:'/member/',items:[['コンサルタント一覧','/member/',0],['監修者・執筆者一覧','/author/',1]]},recruit:{t:'採用情報',n:'/recruit/',items:[['キャリア採用求人一覧','/recruit/career_menu/',0],['キャリア設計','/recruit/careerplan/',0],['はたらく環境','/recruit/environment/',0],['はたらき方','/recruit/workstyle/',0],['社員紹介','/recruit/member/',0],['よくいただくご質問','/recruit/faq/',0],['事業内容（採用）','/recruit/ourwork/',0],['採用お問い合わせ','/recruit/inquiry/',0]]}};
+var MEGA = {company:{t:'企業情報',en:'COMPANY',d:'理念・沿革・重点取組事項など、会社の姿勢をお伝えするページ群です。',top:'/company/',items:[['企業理念','/company/information/',0],['ご挨拶','/company/leadership/',0],['会社概要','/company/profile/',0],['沿革','/company/history/',0],['重点取組事項','/company/initiative/',0],['サステナビリティ','/company/sustainability/',0]]},service:{t:'事業内容',en:'SERVICE',d:'ICT全体統制と、基盤・業務システムの4フェーズをご紹介します。',top:'/service/',items:[['ICT全体統制','/service/whole/',0],['計画フェーズ','/service/planning/',0],['調達フェーズ','/service/supplying/',0],['導入フェーズ','/service/implementing/',0],['運用・評価フェーズ','/service/reviewing/',0]]},knowledge:{t:'ナレッジ',en:'KNOWLEDGE',d:'4種の記事をここに集約します。括りの名称は仮称です。',top:'/knowledge/',items:[['Agenda／取組テーマ','/agenda/',1],['Case Study（事例）','/case/',0],['有識者インタビュー','/interview/',1],['お客様','/customer/',1],['インフォグラフィック','/agenda/download/',1]]},member:{t:'コンサルタント',en:'CONSULTANT',d:'コンサルタント個人ページと、監修者・執筆者一覧を並列に置きます。',top:'/member/',items:[['コンサルタント一覧','/member/',0],['監修者・執筆者一覧','/author/',1]]},recruit:{t:'採用情報',en:'RECRUIT',d:'HD配下からGA配下へ移設する採用サイトの各ページです。',top:'/recruit/',items:[['キャリア採用求人一覧','/recruit/career_menu/',0],['キャリア設計','/recruit/careerplan/',0],['はたらく環境','/recruit/environment/',0],['はたらき方','/recruit/workstyle/',0],['社員紹介','/recruit/member/',0],['よくいただくご質問','/recruit/faq/',0],['事業内容（採用）','/recruit/ourwork/',0],['採用お問い合わせ','/recruit/inquiry/',0]]}};
+// GA現行サイトの矢印アイコン（icon_arrow01）に近い細い矢印。
+// 線の色はリンクの文字色を継承するので、ホバー時に水色へ変わる。
+var ARROW = '<svg class="ar" viewBox="0 0 17 8" aria-hidden="true">' +
+  '<path d="M0 4h15M11.5 .7 15 4l-3.5 3.3" fill="none" stroke="currentColor" ' +
+  'stroke-width="1.2"/></svg>';
 var panel = document.getElementById('mega-panel');
 var navA  = document.querySelector('[data-mega]');
 var timer = null;
@@ -604,20 +635,29 @@ var timer = null;
 function openMega(key){
   var d = MEGA[key]; if (!d) return;
   clearTimeout(timer);
-  panel.innerHTML = '<p class="mh">' + d.t + '<em>' + d.n + '</em></p><ul>' +
-    d.items.map(function(it){
-      return '<li><a href="#" onclick="return false">' + it[0] +
-             (it[2] ? '<span class="new">新設</span>' : '') +
-             '<span class="sl">' + it[1] + '</span></a></li>';
-    }).join('') + '</ul>';
+  panel.innerHTML =
+    '<div class="mwrap">' +
+      '<div class="lead"><span class="en">' + d.en + '</span>' +
+        '<h4>' + d.t + '</h4><p>' + d.d + '</p>' +
+        '<a class="btn" href="#" onclick="return false">一覧へ' + ARROW + '</a></div>' +
+      '<ul>' + d.items.map(function(it){
+        return '<li><a href="#" onclick="return false"><span class="lbl">' + it[0] +
+               '</span>' + (it[2] ? '<span class="new">新設</span>' : '') +
+               ARROW + '</a></li>';
+      }).join('') + '</ul>' +
+    '</div><span class="wm">' + d.en + '</span>';
   panel.classList.add('on');
   navA.querySelectorAll('li').forEach(function(li){
     li.classList.toggle('open', li.dataset.key === key);
   });
+  // 項目数の多いメニューが見本の枠からはみ出して切れないよう、枠側を広げる
+  panel.parentElement.style.minHeight =
+    (panel.offsetTop + panel.offsetHeight + 16) + 'px';
 }
 function closeMega(){
   timer = setTimeout(function(){
     panel.classList.remove('on');
+    panel.parentElement.style.minHeight = '';
     navA.querySelectorAll('li').forEach(function(li){ li.classList.remove('open'); });
   }, 140);
 }
