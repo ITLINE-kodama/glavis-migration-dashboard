@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow,noarchive">
-<title>想定サイトマップ（叩き台）｜GLAVISグループ サイト移行プロジェクト</title>
+<link rel="canonical" href="https://glavis.itline-pf.com/">
+<title>移転のお知らせ｜GLAVISグループ サイト移行プロジェクト</title>
 <style>
   :root{
     --ink:#14263d; --ink-2:#3e5570; --ink-3:#5c7085;
@@ -72,393 +73,37 @@
   }
 
 
-  /* ---------- グローバルナビ ---------- */
-  .gnav{position:sticky;top:0;z-index:50;background:var(--card);
-        border-bottom:1px solid var(--line);
-        box-shadow:0 1px 0 rgba(20,38,61,.04)}
-  /* 折り返さず1行に保ち、狭い画面では横スクロールさせる
-     （折り返すとナビが高くなり、アンカー移動時に見出しが隠れるため） */
-  .gnav-in{max-width:1180px;margin:0 auto;padding:0 24px;
-           display:flex;align-items:center;gap:0 16px;
-           min-height:52px;flex-wrap:nowrap}
-  .gbrand{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;
-          color:var(--ink);text-decoration:none;white-space:nowrap;flex:none}
-  .gbrand::before{content:"";width:15px;height:15px;border-radius:4px;flex:none;
-          background:linear-gradient(135deg,var(--brand),var(--brand-2))}
-  .gnav nav{display:flex;align-items:center;gap:2px;flex-wrap:nowrap;flex:none}
-  .gnav a.gl-link{font-size:13px;font-weight:600;text-decoration:none;
-            color:var(--ink-2);padding:6px 12px;border-radius:8px;white-space:nowrap}
-  .gnav a.gl-link:hover{background:var(--line-soft);color:var(--accent)}
-  .gnav a.gl-link.on{color:var(--accent);background:var(--accent-soft)}
-  /* 左＝同じページ内の見出しへ移動（#付き・枠なし）
-     右＝別ページへの切替（ラベル付きのセグメント）。見た目で役割を分ける */
-  .gnav nav a.gl-link{padding:6px 7px}
-  .gnav-in{gap:0 10px}
-  .gnav a.gl-sec::before{content:"#";color:var(--ink-3);font-weight:700;
-        margin-right:3px;font-family:var(--mono);font-size:12px}
-  .gnav a.gl-sec:hover::before,.gnav a.gl-sec.on::before{color:var(--accent)}
-  .glab{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--ink-3);
-        white-space:nowrap;flex:none}
-  .gsep{width:1px;height:20px;background:var(--line);flex:none;margin:0 4px}
-  .gpages{margin-left:auto;display:flex;align-items:center;gap:3px;flex:none;
-          background:var(--line-soft);border:1px solid var(--line);
-          border-radius:99px;padding:3px 5px 3px 12px}
-  .gpages .glab{margin-right:4px}
-  .gpages a.gl-link{padding:5px 11px;border-radius:99px}
-  .gpages a.gl-link:hover{background:var(--card);color:var(--accent)}
-  .gpages a.gl-link[aria-current="page"]{background:var(--card);
-          color:var(--accent-ink);font-weight:700;
-          box-shadow:0 1px 3px rgba(20,38,61,.14)}
-  /* ---------- ページ切替のドロップダウン ----------
-     資料が増えても1行に収まるよう、性質ごとにまとめる。
-     パネルはナビ枠の外に出るため、.gnav-in には overflow を掛けない */
-  .gdrop{position:relative;flex:none}
-  .gdrop__bt{display:flex;align-items:center;gap:5px;font:inherit;font-size:13px;
-        font-weight:600;color:var(--ink-2);background:none;border:0;cursor:pointer;
-        padding:5px 11px;border-radius:99px;white-space:nowrap}
-  .gdrop__bt:hover{background:var(--card);color:var(--accent)}
-  .gdrop__bt em{font-style:normal;font-weight:700;color:var(--accent-ink)}
-  .gdrop__bt em::before{content:"：";color:var(--ink-3);font-weight:400}
-  .gdrop.is-here .gdrop__bt{background:var(--card);
-        box-shadow:0 1px 3px rgba(20,38,61,.14)}
-  .gdrop__ar{width:6px;height:6px;border-right:1.5px solid currentColor;
-        border-bottom:1.5px solid currentColor;transform:rotate(45deg) translate(-1px,-1px);
-        transition:transform .15s}
-  .gdrop__bt[aria-expanded="true"] .gdrop__ar{transform:rotate(225deg) translate(-2px,-2px)}
-  .gdrop__mn{position:absolute;right:0;top:calc(100% + 6px);z-index:60;
-        min-width:250px;background:var(--card);border:1px solid var(--line);
-        border-radius:12px;padding:6px;box-shadow:var(--shadow);
-        display:flex;flex-direction:column;gap:2px}
-  .gdrop__mn[hidden]{display:none}
-  /* ボタンとパネルの隙間を透明の帯で埋める。ここを通る間に閉じないようにする */
-  .gdrop__mn::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}
-  /* 当たり判定を広げ、少し外れた程度では閉じないようにする */
-  .gdrop{padding:4px 0}
-  .gdrop__mn a{display:block;padding:8px 12px;border-radius:8px;text-decoration:none;
-        color:var(--ink)}
-  .gdrop__mn a:hover{background:var(--line-soft)}
-  .gdrop__mn a[aria-current="page"]{background:var(--accent-soft)}
-  .gdrop__mn b{display:block;font-size:13px;font-weight:700}
-  .gdrop__mn a[aria-current="page"] b{color:var(--accent-ink)}
-  .gdrop__mn span{display:block;font-size:11px;color:var(--ink-3);margin-top:1px}
-
-  /* --navh はナビの実高さ。読み込み時とリサイズ時にJSが更新する */
-  :root{--navh:52px}
-  section[id]{scroll-margin-top:calc(var(--navh) + 12px)}
-  @media (max-width:820px){
-    .gnav-in{padding:0 16px;gap:0 12px;min-height:48px}
-    .gbrand{font-size:12.5px}
-    .gnav a.gl-link{padding:6px 10px}
-    /* 狭い画面ではラベルとページ内アンカーを省き、ページ切替だけ残す */
-    .glab{display:none}
-    .gsecs{display:none}
-    .gdrop__bt em{display:none}
-    .gdrop__mn{right:auto;left:0;min-width:220px}
-    .gpages{padding:3px 5px}
-  }
-
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:var(--jp);color:var(--ink);background:var(--paper);line-height:1.7;
-       -webkit-font-smoothing:antialiased}
-  .container{max-width:1180px;margin:0 auto;padding:40px 24px 80px}
-  a{color:var(--accent)}
-
-  header.doc{border-bottom:3px solid var(--accent);padding-bottom:20px;margin-bottom:26px}
-  .doc .en{color:var(--accent);font-size:12px;letter-spacing:.25em;font-weight:700;
-           font-family:var(--mono)}
-  .doc h1{font-size:26px;margin-top:6px;line-height:1.45;text-wrap:balance}
-  .doc .meta{color:var(--ink-3);font-size:12.5px;margin-top:8px}
-
-  .legend{display:flex;flex-wrap:wrap;gap:14px;background:var(--card);
-          border:1px solid var(--line);border-radius:10px;padding:14px 18px;
-          font-size:12.5px;margin-bottom:22px}
-  .legend span{display:inline-flex;align-items:center;gap:6px}
-  .slug-ex{font-family:var(--mono);color:var(--ink-3);font-size:11.5px}
-
-  /* ---------- タグ ---------- */
-  .tag{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;
-       padding:1px 7px;line-height:1.6;white-space:nowrap}
-  .tag.new{background:var(--accent);color:var(--on-accent)}
-  .tag.keep{background:var(--line-soft);color:var(--ink-3)}
-  .tag.hd{background:#2f6bb0;color:#fff}
-  .tag.rec{background:var(--brand-2);color:#04352a}
-  .tag.chk{background:var(--fix);color:var(--paper)}
-  .tag.next{background:var(--idle-soft);color:var(--ink-3)}
-
-  /* ---------- 見出し ---------- */
-  h2.sec{font-size:19px;margin:44px 0 6px;padding-left:12px;
-         border-left:5px solid var(--accent);line-height:1.5}
-  .sec-note{font-size:12.5px;color:var(--ink-3);margin-bottom:16px}
-
-  /* ---------- ツリー ---------- */
-  .tree{background:var(--card);border:1px solid var(--line);border-radius:12px;
-        padding:26px 28px;overflow-x:auto}
-  ul.map,ul.map ul{list-style:none}
-  ul.map ul{margin-left:26px;padding-left:18px;border-left:2px dotted var(--line)}
-  ul.map li{margin:7px 0;position:relative}
-  ul.map ul li::before{content:"";position:absolute;left:-18px;top:14px;
-                       width:12px;height:2px;background:var(--line)}
-  .node{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;
-        background:var(--card);border:1.5px solid var(--line);border-radius:7px;
-        padding:5px 12px;font-size:13.5px}
-  .node b{font-weight:600}
-  .node .slug{color:var(--ink-3);font-size:11px;font-family:var(--mono)}
-  .node .role{color:var(--ink-3);font-size:11px}
-  .node.top{background:linear-gradient(135deg,var(--brand),var(--brand-2));
-            border-color:transparent;color:#04252a;font-size:15px;padding:8px 18px}
-  .node.top .slug,.node.top .role{color:#0a4a45}
-  .node.cat{background:var(--accent-soft);border-color:var(--accent)}
-  /* ライト・ダーク双方で読めるよう、色は必ずトークン経由で指定する */
-  .node.rec{background:var(--ok-soft);border-color:var(--brand-2)}
-
-  /* ---------- ナビ案 ---------- */
-  .plans{display:grid;gap:14px;
-         grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr))}
-  .plan{background:var(--card);border:1px solid var(--line);border-radius:12px;
-        padding:20px 22px;display:flex;flex-direction:column;gap:12px}
-  .plan.rec{border-color:var(--accent);border-width:2px}
-  .ph{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-  .pk{font-family:var(--mono);font-size:13px;font-weight:700;color:#04252a;
-      background:linear-gradient(135deg,var(--brand),var(--brand-2));
-      border-radius:6px;padding:2px 9px}
-  .pn{font-size:17px;font-weight:700}
-  .rec-badge{font-size:10.5px;font-weight:700;color:var(--accent-ink);
-             background:var(--accent-soft);border:1px solid var(--accent);
-             border-radius:99px;padding:1px 9px}
-  .pl{font-size:13.5px;color:var(--ink-2)}
-  .navdemo{display:flex;flex-direction:column;background:var(--paper);
-           border:1px solid var(--line);border-radius:9px;padding:12px 14px}
-  .ni{display:flex;flex-direction:column;gap:1px;padding:5px 0;
-      border-top:1px dashed var(--line)}
-  .ni:first-child{border-top:0}
-  .nl{font-size:14px;font-weight:700}
-  .nc{font-size:12px;color:var(--ink-3);padding-left:10px}
-  .pc{display:grid;gap:10px;grid-template-columns:1fr 1fr;font-size:13px}
-  .pc b{display:block;font-size:11px;letter-spacing:.08em;margin-bottom:3px}
-  .pp{color:var(--ok)}
-  .pm{color:var(--fix)}
-  .pc ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:4px;
-         color:var(--ink-2);line-height:1.7}
-
-  /* ---------- 表 ---------- */
-  .wrap-scroll{overflow-x:auto;max-width:100%}
-  table.list{width:100%;border-collapse:collapse;background:var(--card);
-             font-size:12.5px;min-width:640px}
-  table.list th,table.list td{border:1px solid var(--line);padding:7px 10px;
-                              text-align:left;vertical-align:top;line-height:1.7}
-  table.list th{background:var(--line-soft);font-weight:600;white-space:nowrap;
-                color:var(--ink-2)}
-  table.list td.num{text-align:right;white-space:nowrap}
-  table.list td.old{color:var(--ink-3);text-decoration:line-through}
-  table.list td.new-v{color:var(--accent-ink);font-weight:600}
-  table.list td.src-v{color:var(--ink-3);font-size:11.5px}
-
-  /* ---------- ダウンロード ---------- */
-  .dl-bar{display:flex;align-items:center;justify-content:space-between;gap:18px;
-          flex-wrap:wrap;background:var(--accent-soft);border:1px solid var(--accent);
-          border-radius:12px;padding:16px 22px;margin-bottom:8px}
-  .dl-txt{font-size:12.5px;color:var(--ink-2);max-width:74ch}
-  .dl-txt b{display:block;font-size:14px;color:var(--ink);margin-bottom:2px}
-  .dl-btn{display:inline-block;font-size:14px;font-weight:700;text-decoration:none;
-          border-radius:99px;padding:11px 26px;white-space:nowrap;
-          background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#04252a}
-  .dl-btn:hover{filter:brightness(1.06)}
-  .dl-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-
-  .note-box{background:var(--card);border:1px solid var(--accent);
-            border-left-width:5px;border-radius:10px;padding:16px 20px;
-            font-size:13px;margin-top:16px;line-height:1.9}
-  .note-box h3{font-size:14px;color:var(--accent-ink);margin-bottom:6px}
-
-  footer.doc{margin-top:60px;padding-top:16px;border-top:1px solid var(--line);
-             color:var(--ink-3);font-size:11.5px;display:flex;
-             justify-content:space-between;flex-wrap:wrap;gap:8px}
-
-  @media (max-width:720px){
-    .container{padding:26px 16px 64px}
-    .doc h1{font-size:21px}
-    .tree{padding:18px 14px}
-    ul.map ul{margin-left:12px;padding-left:14px}
-    ul.map ul li::before{left:-14px;width:9px}
-    .node{font-size:12.5px;padding:5px 10px;gap:6px}
-    .pc{grid-template-columns:1fr}
-    .dl-bar{padding:14px 16px}
-    .dl-btn{width:100%;text-align:center}
-  }
-  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  body{font-family:var(--jp);color:var(--ink);background:var(--paper);line-height:1.85;
+       display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .box{max-width:620px;width:100%;background:var(--card);border:1px solid var(--line);
+       border-radius:14px;padding:36px 34px;box-shadow:var(--shadow)}
+  .en{color:var(--accent);font-size:11px;letter-spacing:.22em;font-weight:700;
+      font-family:var(--mono)}
+  h1{font-size:21px;margin:8px 0 16px;line-height:1.5}
+  p{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .btn{display:inline-block;margin:6px 0 18px;padding:13px 28px;border-radius:99px;
+       background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#04252a;
+       font-weight:700;font-size:14.5px;text-decoration:none}
+  .btn:hover{filter:brightness(1.06)}
+  .url{font-family:var(--mono);font-size:12px;color:var(--ink-3);word-break:break-all;
+       background:var(--line-soft);border-radius:8px;padding:10px 12px;margin-bottom:18px}
+  .note{font-size:12px;color:var(--ink-3);border-top:1px solid var(--line);
+        padding-top:14px;margin-top:4px}
+  .note b{color:var(--ink-2)}
 </style>
 </head>
 <body>
-<div class="gnav"><div class="gnav-in"><a class="gbrand" href="https://itline-kodama.github.io/glavis-migration-dashboard/">GLAVIS サイト移行</a><span class="gpages"><span class="glab">ページ切替</span><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/">ダッシュボード</a><span class="gdrop" data-drop="guide"><button class="gl-link gdrop__bt" type="button" aria-expanded="false" aria-controls="dd-guide">手順・ご依頼<i class="gdrop__ar"></i></button><span class="gdrop__mn" id="dd-guide" hidden><a href="https://itline-kodama.github.io/glavis-migration-dashboard/recaptcha/"><b>reCAPTCHA</b><span>設定手順とキーのご送付</span></a><a href="https://itline-kodama.github.io/glavis-migration-dashboard/tracking/"><b>計測タグ</b><span>GTM引き継ぎのご案内</span></a><a href="https://itline-kodama.github.io/glavis-migration-dashboard/redirect/"><b>リダイレクト</b><span>URL設計と転送方針</span></a></span></span><span class="gdrop is-here" data-drop="docs"><button class="gl-link gdrop__bt" type="button" aria-expanded="false" aria-controls="dd-docs">ご提案資料<em>サイトマップ</em><i class="gdrop__ar"></i></button><span class="gdrop__mn" id="dd-docs" hidden><a href="https://itline-kodama.github.io/glavis-migration-dashboard/sitemap/" aria-current="page"><b>サイトマップ</b><span>移行後の想定構成（叩き台）</span></a><a href="https://itline-kodama.github.io/glavis-migration-dashboard/navdemo/"><b>ナビ比較</b><span>グローバルナビ A案／B案</span></a><a href="https://itline-kodama.github.io/glavis-migration-dashboard/susdemo/"><b>サステナ</b><span>掲載内容と配置のご提案</span></a></span></span></span></div></div>
-<div class="container">
-
-<header class="doc">
-  <div class="en">PROPOSED SITEMAP</div>
-  <h1>GLAVISグループ様　サイト移行後 想定サイトマップ（叩き台）</h1>
-  <div class="meta">2026年8月13日｜株式会社ITLINE｜2026年8月21日 実務者MTG② ご確認用｜
-    現行URL 363ページ（一覧290＋監修者1＋クロール追加72）</div>
-</header>
-
-<div class="legend">
-  <span><span class="tag new">★新規</span> 新規作成ページ</span>
-  <span><span class="tag keep">GA既存</span> GAサイトの現行ページ</span>
-  <span><span class="tag hd">HDから</span> HDサイトから移行</span>
-  <span><span class="tag rec">採用から</span> 採用サイトから移設</span>
-  <span><span class="tag chk">要確認</span> ご判断が必要</span>
-  <span><span class="tag next">次フェーズ</span> 10月以降・別予算</span>
-  <span>表記＝ページ名／<span class="slug-ex">URLスラッグ案</span>／補足</span>
-</div>
-
-<div class="dl-bar">
-  <div class="dl-txt"><b>ページ一覧・URL設計（Excel）</b>
-    <span>本図の全ページとURL、移行元、301リダイレクトの要否を一覧化。
-      構成確定後はそのままリダイレクト設定の対応表になります（全7シート）。</span></div>
-  <a class="dl-btn" href="glavis-sitemap-url-list.xlsx" download="【叩き台】GLAVISサイトマップ・URL設計.xlsx">Excelをダウンロード</a>
-</div>
-
-<h2 class="sec">ラフ案からの主な変更点</h2>
-<p class="sec-note">グラビス様ご提供「GAサイト移行案｜GA広報」のラフ構成に対し、
-  その後のMTG・議事録でのご指摘を反映した箇所です。</p>
-<div class="wrap-scroll"><table class="list"><tbody><tr><th>項目</th><th>ラフ案</th><th>本叩き台</th><th>根拠</th></tr><tr><td><b>監修者ページの扱い</b></td><td class="old">GA「コンサルタント」へ統合</td><td class="new-v">GAへ移設し、コンサルタント個人ページと並列に配置（統合はしない）</td><td class="src-v">8/13 岡田様ご判断。8/10 大島様の「HDに残す」から再変更</td></tr><tr><td><b>HD「解決アプローチ」「日本の社会問題」一覧</b></td><td class="old">HDに残すか要確認</td><td class="new-v">一覧・記事・インフォグラフィックDLとも、すべてGAへ移行</td><td class="src-v">8/13 岡田様ご判断</td></tr><tr><td><b>グローバルナビ</b></td><td class="old">8項目が並列</td><td class="new-v">5〜6項目に集約（A案：メガメニュー型を推奨）</td><td class="src-v">8/7 MTG「項目数が多く窮屈。まとめられる箇所は統合したい」</td></tr><tr><td><b>サステナビリティ</b></td><td class="old">ナビ直下（/sustainability/）</td><td class="new-v">企業情報内へ統合（要ご判断）</td><td class="src-v">8/10 大島様コメント「企業情報内に統合することも検討しています」</td></tr><tr><td><b>重点取り組み事項</b></td><td class="old">「取り組み」表記</td><td class="new-v">「重点取組事項」へ修正</td><td class="src-v">8/10 伊藤様コメント（公用文表記：名詞は「取組」）</td></tr><tr><td><b>採用サイトの事業内容</b></td><td class="old">GA「事業内容」へ統合</td><td class="new-v">今回はそのまま移設し、統合は次フェーズ・別予算</td><td class="src-v">8/7 MTG「リニューアルの色が濃くなるため次フェーズへ」</td></tr></tbody></table></div>
-
-<h2 class="sec">グローバルナビゲーションの集約案</h2>
-<p class="sec-note">下記の説明だけでは両案の差がわかりにくいため、
-  GA現行サイトのヘッダーデザインを再現した動作デモをご用意しました。</p>
-<div class="dl-bar">
-  <div class="dl-txt"><b>A案／B案 比較デモ（実物デザインで動きます）</b>
-    <span>ナビ項目にマウスを乗せたときの違い、ナビの文字量、
-      目的のページに到達するまでのクリック数、スマートフォンでの見え方を比較できます。</span></div>
-  <a class="dl-btn" href="../navdemo/">比較デモを開く</a>
-</div>
-<div class="plans"><div class="plan rec"><div class="ph"><span class="pk">A案</span><span class="pn">メガメニュー型</span><span class="rec-badge">ITLINE推奨</span></div><p class="pl">上位を5項目に集約し、マウスオーバーで下層を一覧表示する。項目数を抑えつつ、下層ページへ1クリックで到達できる。</p><div class="navdemo"><div class="ni"><span class="nl">企業情報</span><span class="nc">企業理念 ／ ご挨拶 ／ 会社概要 ／ 沿革 ／ 重点取組事項 ／ サステナビリティ</span></div><div class="ni"><span class="nl">事業内容</span><span class="nc">全体像 ／ 構想策定 ／ 調達支援 ／ 導入支援 ／ 評価・改善</span></div><div class="ni"><span class="nl">ナレッジ</span><span class="nc">アジェンダ／取組テーマ ／ Case Study ／ 有識者インタビュー ／ お客様</span></div><div class="ni"><span class="nl">コンサルタント</span></div><div class="ni"><span class="nl">採用情報</span><span class="nc">キャリア採用求人一覧 ／ キャリア設計 ／ はたらく環境 ／ はたらき方 ／ 社員紹介 ／ よくいただくご質問</span></div></div><div class="pc"><div><b class="pp">利点</b><ul><li>上位が5項目で窮屈さが解消される</li><li>「ナレッジ」に4種の記事を集約でき、回遊の起点が1つになる</li><li>下層ページへ1クリックで到達でき、階層の深さを感じさせない</li></ul></div><div><b class="pm">留意点</b><ul><li>「ナレッジ」という括りの名称を決める必要がある</li><li>スマートフォンではメガメニューが使えず、別途アコーディオンでの実装が必要</li></ul></div></div></div><div class="plan"><div class="ph"><span class="pk">B案</span><span class="pn">フラット型</span></div><p class="pl">記事系を束ねず、主要コンテンツをそのままナビに並べる。ラフ案の構成に近く、各コンテンツの独立性が高い。</p><div class="navdemo"><div class="ni"><span class="nl">企業情報</span><span class="nc">企業理念 ／ ご挨拶 ／ 会社概要 ／ 沿革 ／ 重点取組事項 ／ サステナビリティ</span></div><div class="ni"><span class="nl">事業内容</span><span class="nc">全体像 ／ 構想策定 ／ 調達支援 ／ 導入支援 ／ 評価・改善</span></div><div class="ni"><span class="nl">アジェンダ／取組テーマ</span></div><div class="ni"><span class="nl">お客様</span></div><div class="ni"><span class="nl">コンサルタント</span></div><div class="ni"><span class="nl">採用情報</span></div></div><div class="pc"><div><b class="pp">利点</b><ul><li>各コンテンツが独立して見え、新設ページの存在に気づかれやすい</li><li>ラフ案の構成に近く、認識のずれが起きにくい</li></ul></div><div><b class="pm">留意点</b><ul><li>上位が6項目残り、窮屈さの解消幅が小さい</li><li>有識者インタビューがナビから外れ、下層からしか到達できない</li><li>コンテンツが増えるたびにナビの見直しが必要になる</li></ul></div></div></div></div>
-
-<h2 class="sec">グラビス・アーキテクツ（GA）　全体構成</h2>
-<p class="sec-note">記事ページの <span class="slug-ex">{id}</span> は記事ごとの番号です。
-  採用サイトはHD配下からGA配下へ移設されます。</p>
-<div class="tree"><ul class="map"><li><span class="node top"><b>HOME</b><span class="slug">/</span><span class="tag keep">GA既存</span></span><ul><li><span class="node cat"><b>企業情報</b><span class="slug">/company/</span><span class="role">ラフ案どおり。下層を集約し階層を浅くする</span><span class="tag keep">GA既存</span></span><ul><li><span class="node "><b>企業理念</b><span class="slug">/company/information/</span><span class="tag keep">GA既存</span></span></li><li><span class="node "><b>ご挨拶</b><span class="slug">/company/leadership/</span><span class="tag keep">GA既存</span></span></li><li><span class="node "><b>会社概要</b><span class="slug">/company/profile/</span><span class="role">★GA現行に単独ページなし（/company/ 内に包含）。新設するか現状のままとするか要確認</span><span class="tag keep">GA既存</span><span class="tag chk">要確認</span></span></li><li><span class="node "><b>沿革</b><span class="slug">/company/history/</span><span class="tag keep">GA既存</span></span></li><li><span class="node "><b>重点取組事項</b><span class="slug">/company/initiative/</span><span class="role">現行タイトルは「重点取り組み事項」。公用文表記に合わせ「取組」へ修正</span><span class="tag keep">GA既存</span></span></li><li><span class="node "><b>サステナビリティ</b><span class="slug">/company/sustainability/</span><span class="role">★現行は /sustainability/（ナビ直下）。企業情報内へ統合する場合はURLも変わり301リダイレクトが必要（8/10 大島様）</span><span class="tag keep">GA既存</span><span class="tag chk">要確認</span></span></li></ul></li><li><span class="node cat"><b>事業内容</b><span class="slug">/service/</span><span class="role">GAサイトの現行ページを移行。採用サイト側の事業内容との統合は次フェーズ</span><span class="tag keep">GA既存</span></span><ul><li><span class="node "><b>ICT全体統制</b><span class="slug">/service/whole/</span><span class="tag keep">GA既存</span></span></li><li><span class="node "><b>ICT基盤・業務システム − 計画フェーズ</b><span class="slug">/service/planning/</span><span class="tag keep">GA既存</span></span></li><li><span class="node "><b>ICT基盤・業務システム − 調達フェーズ</b><span class="slug">/service/supplying/</span><span class="tag keep">GA既存</span></span></li><li><span class="node "><b>ICT基盤・業務システム − 導入フェーズ</b><span class="slug">/service/implementing/</span><span class="tag keep">GA既存</span></span></li><li><span class="node "><b>ICT基盤・業務システム − 運用・評価フェーズ</b><span class="slug">/service/reviewing/</span><span class="tag keep">GA既存</span></span></li></ul></li><li><span class="node cat"><b>アジェンダ／取組テーマ</b><span class="slug">/agenda/</span><span class="role">★新設。名称未定。1ページ内でAgenda欄とCase Study欄を分け、タグで表示切替</span><span class="tag new">★新規</span><span class="tag chk">要確認</span></span><ul><li><span class="node "><b>Agenda（記事）</b><span class="slug">/agenda/{id}/</span><span class="role">HD「日本の社会問題」25記事の移行先</span><span class="tag hd">HDから</span></span></li><li><span class="node "><b>Case Study（事例・GA既存分）</b><span class="slug">/case/{id}/</span><span class="role">GAサイトに現在ある事例27件。URL変更なし</span><span class="tag keep">GA既存</span></span></li><li><span class="node "><b>Case Study（事例・HDからの移行分）</b><span class="slug">/case/{id}/</span><span class="role">HD「社会問題への解決アプローチ」47記事の移行先。301リダイレクトの対象</span><span class="tag hd">HDから</span></span></li><li><span class="node "><b>インフォグラフィック一覧</b><span class="slug">/agenda/download/</span><span class="role">★8/13 岡田様ご判断によりGAへ移行。HD /social_problem/download/ のDL申込フォーム・完了ページを含む4ページ。配置先URLは要確認</span><span class="tag hd">HDから</span><span class="tag chk">要確認</span></span></li></ul></li><li><span class="node cat"><b>お客様</b><span class="slug">/customer/</span><span class="role">★新設・準備中。記事の実体は今後グラビス様にてご用意。名称未定</span><span class="tag new">★新規</span><span class="tag chk">要確認</span></span><ul><li><span class="node "><b>お客様（記事）</b><span class="slug">/customer/{id}/</span><span class="tag new">★新規</span><span class="tag chk">要確認</span></span></li></ul></li><li><span class="node cat"><b>有識者インタビュー</b><span class="slug">/interview/</span><span class="role">★新設。HD「解決アプローチ＞対談」の記事を移行</span><span class="tag new">★新規</span></span><ul><li><span class="node "><b>有識者インタビュー（記事）</b><span class="slug">/interview/{id}/</span><span class="tag hd">HDから</span></span></li></ul></li><li><span class="node cat"><b>コンサルタント</b><span class="slug">/member/</span><span class="role">★8/13 岡田様ご判断により、HD「監修者・執筆者一覧」をGAへ移設。コンサルタント個人ページと並列に配置する（8/10 大島様の「HDに残す」から再変更）</span><span class="tag keep">GA既存</span></span><ul><li><span class="node "><b>コンサルタント（個人ページ）</b><span class="slug">/member/{id}/</span><span class="role">GAに記事を掲載するコンサルメンバーは必ず紹介を掲載。現在7名分が作成済み</span><span class="tag keep">GA既存</span></span></li><li><span class="node "><b>監修者・執筆者一覧</b><span class="slug">/author/</span><span class="role">★HDから移設。17名が1ページに並ぶ構成で個人ページはなし。個人ページと並列に配置。GA配下でのURLは要確認</span><span class="tag hd">HDから</span><span class="tag chk">要確認</span></span><ul><li><span class="node "><b>監修者 個別（アンカー）</b><span class="slug">/author/?author={ID}</span><span class="role">実体は上記1ページ内のアンカー（#author-{ID}）。全記事の「この記事の監修者」リンク先。クエリ単位での転送設定が必要</span><span class="tag hd">HDから</span><span class="tag chk">要確認</span></span></li></ul></li></ul></li><li><span class="node cat"><b>ニュース</b><span class="slug">/news/</span><span class="role">★GA現行にニュースページは存在しません（ラフ案では「GAサイトから」となっていますが要確認）。HDのニュース85件はHDに残る前提のため、GA側に新設するかどうかのご判断が必要</span><span class="tag new">★新規</span><span class="tag chk">要確認</span></span></li><li><span class="node rec"><b>採用情報</b><span class="slug">/recruit/</span><span class="role">HD配下からGA配下へ移設。301リダイレクト対象60ページ</span><span class="tag rec">採用から</span></span><ul><li><span class="node rec"><b>キャリア採用求人一覧</b><span class="slug">/recruit/career_menu/</span><span class="tag rec">採用から</span></span></li><li><span class="node rec"><b>キャリア設計</b><span class="slug">/recruit/careerplan/</span><span class="tag rec">採用から</span></span></li><li><span class="node rec"><b>はたらく環境</b><span class="slug">/recruit/environment/</span><span class="tag rec">採用から</span></span></li><li><span class="node rec"><b>はたらき方</b><span class="slug">/recruit/workstyle/</span><span class="tag rec">採用から</span></span></li><li><span class="node rec"><b>社員紹介</b><span class="slug">/recruit/member/</span><span class="tag rec">採用から</span></span></li><li><span class="node rec"><b>よくいただくご質問</b><span class="slug">/recruit/faq/</span><span class="tag rec">採用から</span></span></li><li><span class="node rec"><b>事業内容（採用）</b><span class="slug">/recruit/ourwork/</span><span class="role">★GA「事業内容」との統合は次フェーズ・別予算。今回はそのまま移設</span><span class="tag rec">採用から</span><span class="tag next">次フェーズ</span></span></li><li><span class="node rec"><b>採用お問い合わせ</b><span class="slug">/recruit/inquiry/</span><span class="role">HD側フォームからの移設</span><span class="tag rec">採用から</span></span></li></ul></li><li><span class="node cat"><b>お問い合わせ</b><span class="slug">/inquiry/</span><span class="role">★GA現行に単独ページなし。「表示は現在と同様」とのご要望のため、現在の導線をご確認のうえ設計します</span><span class="tag keep">GA既存</span><span class="tag chk">要確認</span></span></li><li><span class="node cat"><b>プライバシーポリシー</b><span class="slug">/privacy/</span><span class="tag keep">GA既存</span></span></li><li><span class="node cat"><b>サイトポリシー</b><span class="slug">/site/</span><span class="tag keep">GA既存</span></span></li><li><span class="node cat"><b>品質・情報セキュリティ基本方針</b><span class="slug">/security/</span><span class="tag keep">GA既存</span></span></li></ul></li></ul></div>
-
-<h2 class="sec">GLAVISグループ（HD）　全体構成</h2>
-<p class="sec-note">記事をGAへ移した後のキュレーション構成です。ニュース85件・企業情報・
-  採用情報の振り分けページ・各種ポリシーが残ります。<br>
-  8月13日 岡田様のご判断により、解決アプローチ・日本の社会問題・インフォグラフィック・
-  監修者一覧はHDに残さずGAへ移します。</p>
-<div class="tree"><ul class="map"><li><span class="node top"><b>HOME</b><span class="slug">/</span><span class="role">グループのキュレーション構成へ整理</span><span class="tag hd">HDから</span></span><ul><li><span class="node cat"><b>企業情報</b><span class="slug">/company/</span><span class="tag hd">HDから</span></span><ul><li><span class="node "><b>代表メッセージ</b><span class="slug">/company/message/</span><span class="tag hd">HDから</span></span></li></ul></li><li><span class="node cat"><b>ニュースリリース・お知らせ</b><span class="slug">/news/</span><span class="role">85件はHDに残置。リダイレクト不要</span><span class="tag hd">HDから</span></span></li><li><span class="node cat"><b>採用情報（グループ振り分け）</b><span class="slug">/recruit/</span><span class="role">★残置。GA・PTM・アンビライズへの振り分けページ。今後アンビライズも追加</span><span class="tag hd">HDから</span></span></li><li><span class="node cat"><b>お問い合わせ・お申し込み</b><span class="slug">/inquiry/</span><span class="tag hd">HDから</span></span></li><li><span class="node cat"><b>採用お問い合わせ・エントリー</b><span class="slug">/inquiry_recruit/</span><span class="role">採用サイトのGA移設にともない、HD側に残すか要確認</span><span class="tag hd">HDから</span><span class="tag chk">要確認</span></span></li><li><span class="node cat"><b>プライバシーポリシー</b><span class="slug">/privacy_policy/</span><span class="tag hd">HDから</span></span></li><li><span class="node cat"><b>サイトポリシー</b><span class="slug">/site_policy/</span><span class="tag hd">HDから</span></span></li><li><span class="node cat"><b>ソーシャルメディアポリシー</b><span class="slug">/sns_policy/</span><span class="tag hd">HDから</span></span></li></ul></li></ul></div>
-
-<h2 class="sec">ページ一覧表（規模サマリー）</h2>
-<div class="wrap-scroll"><table class="list"><tbody><tr><th>区分</th><th>内容</th><th class="num">規模</th><th>扱い</th><th>備考</th></tr><tr><td><b>GAサイト</b></td><td>新しいグラビス・アーキテクツのサイト構成</td><td class="num">41行</td><td>既存＋★新規</td><td>うち要確認 10件</td></tr><tr><td><b>HDサイト</b></td><td>記事をGAへ移した後のキュレーション構成</td><td class="num">10行</td><td>既存（残置）</td><td>うち要確認 1件</td></tr><tr><td><b>採用サイト</b></td><td>HD配下からGA配下へ移設（/recruit/）</td><td class="num">60P</td><td>全件移行</td><td>301リダイレクト必要・転送先確定済み</td></tr><tr><td><b>HD記事 → GA</b></td><td>「解決アプローチ」47記事／「日本の社会問題」25記事・監修者一覧ほか</td><td class="num">79P</td><td>全件移行</td><td>転送先はGA構築後に確定</td></tr><tr><td><b>HD残置ページ</b></td><td>ニュース85件・企業情報・採用情報の振り分けほか</td><td class="num">95P</td><td>既存（残置）</td><td>URL変更なし・リダイレクト不要</td></tr><tr><td><b>GA既存ページ</b></td><td>事例・コンサルタント・事業内容ほか</td><td class="num">57P</td><td>既存</td><td>ドメイン変更なし・リダイレクト不要</td></tr><tr><td><b>クロール追加検出</b></td><td>タグアーカイブ43・絞り込みクエリ15・監修者リンク10・重複4</td><td class="num">72P</td><td>要判断</td><td>URL一覧に無かったもの。転送要否のご判断が必要（T-67/T-68）</td></tr><tr><td colspan="2"><b>現行URL 合計</b></td><td class="num"><b>363P</b></td><td colspan="2">一覧290件＋監修者一覧1件＋クロール追加検出72件</td></tr></tbody></table></div>
-
-<h2 class="sec">ご確認・ご判断をお願いしたい論点</h2>
-<p class="sec-note">MTG②で方向性を決めたいもの、8月末までにご判断いただきたいものです。
-  Excelの「④ご確認事項」シートにご記入欄をご用意しています。</p>
-<div class="wrap-scroll"><table class="list"><tbody><tr><th>No</th><th>論点</th><th>内容</th><th>ご判断の目安</th></tr><tr><td class="num">1</td><td><b>グローバルナビの集約方針</b></td><td>A案（メガメニュー型）／B案（フラット型）のいずれを採用するか。ITLINEはA案を推奨します。</td><td class="num">8/21 MTG②</td></tr><tr><td class="num">2</td><td><b>「ナレッジ」等の括り名称</b></td><td>A案を採る場合、4種の記事をまとめる上位名称を決める必要があります（例：ナレッジ／インサイト／知見）。</td><td class="num">8/31</td></tr><tr><td class="num">3</td><td><b>サステナビリティの配置</b></td><td>グローバルナビ直下のままとするか、企業情報内へ統合するか。掲載内容の傾向・事例はITLINEよりご提供します。</td><td class="num">8/31</td></tr><tr><td class="num">4</td><td><b>新設ページの正式名称</b></td><td>「アジェンダ／取組テーマ」「お客様」は仮称です。テキスト変更のみのため構成確定後でも変更可能です。</td><td class="num">9/30</td></tr><tr><td class="num">5</td><td><b>GA「ニュース」の扱い</b></td><td>HDにニュース85件が残るため、GA側に独自のニュースを持つか、HDへ集約するかを整理する必要があります。</td><td class="num">8/31</td></tr><tr><td class="num">6</td><td><b>監修者ページの扱い（ご指示の食い違い）</b></td><td>★8/10 大島様「HDに残す」／8/13 岡田様「GAへ移す」と、相反するご指示をいただいています。本図は8/13 岡田様のご判断（GAへ移設し、コンサルタント個人ページと並列に配置）で作成しています。社内での最終確認をお願いいたします。</td><td class="num">8/21 MTG②</td></tr><tr><td class="num">7</td><td><b>監修者一覧とコンサルタント個人ページの役割分担</b></td><td>両方をコンサルタント配下に並列で置くため、掲載内容の重複が生じます。個人ページがあるのは17名中7名で、残り8名は一覧のみへの掲載となります（2名は他社のPTM／AmbiRise）。一覧から個人ページへの導線の有無とあわせてご確認ください。</td><td class="num">9/5</td></tr><tr><td class="num">8</td><td><b>インフォグラフィックDL導線の配置先</b></td><td>GAへ移すことは決定済みです（8/13 岡田様）。GA側のどのURL配下に置くか（/agenda/download/ 等）をご確認ください。</td><td class="num">9/5</td></tr><tr><td class="num">9</td><td><b>GA「会社概要」「お問い合わせ」</b></td><td>ラフ案に記載がありますがGA現行に単独ページが存在しません。新設するか、現在の導線のままとするかをご確認ください。</td><td class="num">8/31</td></tr></tbody></table></div>
-
-<div class="note-box">
-  <h3>このあとの流れ</h3>
-  ・<b>8月21日（金）MTG②</b>：本資料をもとに構成をご確認いただき、
-  グローバルナビの方針（A案／B案）を決定します。<br>
-  ・<b>8月末</b>：ご指摘を反映のうえ構成を確定し、社内承認を進めていただきます。<br>
-  ・<b>9月</b>：確定した構成にもとづき、新コンテンツの構築と301リダイレクトの設定を行います。<br>
-  ・ご不明な点は Teams、またはお電話にて遠慮なくお問い合わせください。修正はお電話でも承ります。
-</div>
-
-<footer class="doc">
-  <span>GLAVISグループ様　サイト移行後 想定サイトマップ（叩き台）</span>
-  <span>© 2026 ITLINE Inc.　CONFIDENTIAL　<a href="../">← 進捗ダッシュボードへ戻る</a></span>
-</footer>
-</div>
-
-<script>
-(function(){
-  // アンカー移動時に見出しがナビへ潜らないよう、実高さを CSS 変数に入れる
-  var bar = document.querySelector('.gnav');
-  if (bar){
-    var setH = function(){
-      document.documentElement.style.setProperty('--navh',
-        Math.round(bar.getBoundingClientRect().height) + 'px');
-    };
-    setH();
-    window.addEventListener('resize', setH);
-  }
-})();
-(function(){
-  var links = document.querySelectorAll('.gnav a[data-sec]');
-  if (!links.length || !('IntersectionObserver' in window)) return;
-  var map = {};
-  links.forEach(function(a){ map[a.dataset.sec] = a; });
-  var seen = {};
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ seen[e.target.id] = e.isIntersecting; });
-    // 画面内にある最初の見出しを現在位置とする
-    var hit = null;
-    Object.keys(map).forEach(function(id){ if (!hit && seen[id]) hit = id; });
-    links.forEach(function(a){ a.classList.toggle('on', a.dataset.sec === hit); });
-  }, {rootMargin: '-60px 0px -70% 0px'});
-  Object.keys(map).forEach(function(id){
-    var el = document.getElementById(id); if (el) io.observe(el);
-  });
-})();
-
-(function(){
-  // ページ切替のドロップダウン。
-  //  ・ボタンを押して開いた場合は「固定」され、マウスを離しても閉じない
-  //  ・マウスを乗せただけで開いた場合は、離れてから少し待って閉じる
-  //    （ボタンとパネルの間を通る間に閉じてしまわないよう、余裕を持たせる）
-  //  ・外側クリック / Esc / 別のメニューを開く、で閉じる
-  var drops = [].slice.call(document.querySelectorAll('.gdrop'));
-  var CLOSE_DELAY = 500;
-
-  drops.forEach(function(d){
-    d._bt = d.querySelector('.gdrop__bt');
-    d._mn = d.querySelector('.gdrop__mn');
-    d._pinned = false;
-    d._timer = null;
-  });
-
-  function open(d, pinned){
-    clearTimeout(d._timer);
-    drops.forEach(function(o){ if (o !== d) close(o); });
-    d._bt.setAttribute('aria-expanded', 'true');
-    d._mn.hidden = false;
-    if (pinned) d._pinned = true;
-  }
-  function close(d){
-    clearTimeout(d._timer);
-    d._bt.setAttribute('aria-expanded', 'false');
-    d._mn.hidden = true;
-    d._pinned = false;
-  }
-  function closeAll(){ drops.forEach(close); }
-  function isOpen(d){ return !d._mn.hidden; }
-
-  drops.forEach(function(d){
-    // クリック（タッチも同じ）で開閉。開いた状態は固定される
-    d._bt.addEventListener('click', function(e){
-      e.stopPropagation();
-      if (isOpen(d) && d._pinned) { close(d); } else { open(d, true); }
-    });
-
-    // ホバーは「開く」だけ担当。閉じるのは離れてから遅れて
-    d.addEventListener('mouseenter', function(){
-      if (!window.matchMedia('(hover:hover)').matches) return;
-      open(d, false);
-    });
-    d.addEventListener('mouseleave', function(){
-      if (!window.matchMedia('(hover:hover)').matches) return;
-      if (d._pinned) return;                 // 固定中は閉じない
-      clearTimeout(d._timer);
-      d._timer = setTimeout(function(){ close(d); }, CLOSE_DELAY);
-    });
-    // 戻ってきたら閉じるのを取り消す
-    d.addEventListener('mousemove', function(){ clearTimeout(d._timer); });
-    // リンクを選んだら閉じる（同じページ内の遷移でも見た目が残らないように）
-    d._mn.addEventListener('click', function(e){ e.stopPropagation(); });
-  });
-
-  document.addEventListener('click', closeAll);
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape') { closeAll(); }
-  });
-})();
-</script>
+  <div class="box">
+    <div class="en">MOVED / GLAVIS GROUP SITE MIGRATION</div>
+    <h1>進捗ダッシュボードは移転しました</h1>
+    <p>想定サイトマップ（叩き台） は、下記の新しいURLへ移設いたしました。<br>
+       お手数ですが、ブックマークの変更をお願いいたします。</p>
+    <a class="btn" href="https://glavis.itline-pf.com/sitemap/">新しいページを開く</a>
+    <div class="url">https://glavis.itline-pf.com/sitemap/</div>
+    <p class="note"><b>ID・パスワードの入力画面が表示されます。</b><br>
+       閲覧に必要な情報は、担当者より別途ご案内しております。
+       お手元にない場合は、株式会社ITLINE 小玉までお問い合わせください。</p>
+  </div>
 </body>
 </html>
