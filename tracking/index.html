@@ -80,9 +80,7 @@
      （折り返すとナビが高くなり、アンカー移動時に見出しが隠れるため） */
   .gnav-in{max-width:1180px;margin:0 auto;padding:0 24px;
            display:flex;align-items:center;gap:0 16px;
-           min-height:52px;flex-wrap:nowrap;
-           overflow-x:auto;scrollbar-width:none}
-  .gnav-in::-webkit-scrollbar{display:none}
+           min-height:52px;flex-wrap:nowrap}
   .gbrand{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;
           color:var(--ink);text-decoration:none;white-space:nowrap;flex:none}
   .gbrand::before{content:"";width:15px;height:15px;border-radius:4px;flex:none;
@@ -111,6 +109,35 @@
   .gpages a.gl-link[aria-current="page"]{background:var(--card);
           color:var(--accent-ink);font-weight:700;
           box-shadow:0 1px 3px rgba(20,38,61,.14)}
+  /* ---------- ページ切替のドロップダウン ----------
+     資料が増えても1行に収まるよう、性質ごとにまとめる。
+     パネルはナビ枠の外に出るため、.gnav-in には overflow を掛けない */
+  .gdrop{position:relative;flex:none}
+  .gdrop__bt{display:flex;align-items:center;gap:5px;font:inherit;font-size:13px;
+        font-weight:600;color:var(--ink-2);background:none;border:0;cursor:pointer;
+        padding:5px 11px;border-radius:99px;white-space:nowrap}
+  .gdrop__bt:hover{background:var(--card);color:var(--accent)}
+  .gdrop__bt em{font-style:normal;font-weight:700;color:var(--accent-ink)}
+  .gdrop__bt em::before{content:"：";color:var(--ink-3);font-weight:400}
+  .gdrop.is-here .gdrop__bt{background:var(--card);
+        box-shadow:0 1px 3px rgba(20,38,61,.14)}
+  .gdrop__ar{width:6px;height:6px;border-right:1.5px solid currentColor;
+        border-bottom:1.5px solid currentColor;transform:rotate(45deg) translate(-1px,-1px);
+        transition:transform .15s}
+  .gdrop__bt[aria-expanded="true"] .gdrop__ar{transform:rotate(225deg) translate(-2px,-2px)}
+  .gdrop__mn{position:absolute;right:0;top:calc(100% + 6px);z-index:60;
+        min-width:250px;background:var(--card);border:1px solid var(--line);
+        border-radius:12px;padding:6px;box-shadow:var(--shadow);
+        display:flex;flex-direction:column;gap:2px}
+  .gdrop__mn[hidden]{display:none}
+  .gdrop__mn a{display:block;padding:8px 12px;border-radius:8px;text-decoration:none;
+        color:var(--ink)}
+  .gdrop__mn a:hover{background:var(--line-soft)}
+  .gdrop__mn a[aria-current="page"]{background:var(--accent-soft)}
+  .gdrop__mn b{display:block;font-size:13px;font-weight:700}
+  .gdrop__mn a[aria-current="page"] b{color:var(--accent-ink)}
+  .gdrop__mn span{display:block;font-size:11px;color:var(--ink-3);margin-top:1px}
+
   /* --navh はナビの実高さ。読み込み時とリサイズ時にJSが更新する */
   :root{--navh:52px}
   section[id]{scroll-margin-top:calc(var(--navh) + 12px)}
@@ -118,8 +145,11 @@
     .gnav-in{padding:0 16px;gap:0 12px;min-height:48px}
     .gbrand{font-size:12.5px}
     .gnav a.gl-link{padding:6px 10px}
-    /* 狭い画面ではラベルを省く。セグメントの枠だけで区別できる */
+    /* 狭い画面ではラベルとページ内アンカーを省き、ページ切替だけ残す */
     .glab{display:none}
+    .gsecs{display:none}
+    .gdrop__bt em{display:none}
+    .gdrop__mn{right:auto;left:0;min-width:220px}
     .gpages{padding:3px 5px}
   }
 
@@ -299,9 +329,7 @@
 </style>
 </head>
 <body>
-
-<div class="gnav"><div class="gnav-in"><a class="gbrand" href="https://itline-kodama.github.io/glavis-migration-dashboard/">GLAVIS サイト移行</a><span class="gpages"><span class="glab">ページ切替</span><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/">ダッシュボード</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/recaptcha/">reCAPTCHA</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/tracking/" aria-current="page">計測タグ</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/redirect/">リダイレクト</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/sitemap/">サイトマップ</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/navdemo/">ナビ比較</a><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/susdemo/">サステナ</a></span></div></div>
-
+<div class="gnav"><div class="gnav-in"><a class="gbrand" href="https://itline-kodama.github.io/glavis-migration-dashboard/">GLAVIS サイト移行</a><span class="gpages"><span class="glab">ページ切替</span><a class="gl-link" href="https://itline-kodama.github.io/glavis-migration-dashboard/">ダッシュボード</a><span class="gdrop is-here" data-drop="guide"><button class="gl-link gdrop__bt" type="button" aria-expanded="false" aria-controls="dd-guide">手順・ご依頼<em>計測タグ</em><i class="gdrop__ar"></i></button><span class="gdrop__mn" id="dd-guide" hidden><a href="https://itline-kodama.github.io/glavis-migration-dashboard/recaptcha/"><b>reCAPTCHA</b><span>設定手順とキーのご送付</span></a><a href="https://itline-kodama.github.io/glavis-migration-dashboard/tracking/" aria-current="page"><b>計測タグ</b><span>GTM引き継ぎのご案内</span></a><a href="https://itline-kodama.github.io/glavis-migration-dashboard/redirect/"><b>リダイレクト</b><span>URL設計と転送方針</span></a></span></span><span class="gdrop" data-drop="docs"><button class="gl-link gdrop__bt" type="button" aria-expanded="false" aria-controls="dd-docs">ご提案資料<i class="gdrop__ar"></i></button><span class="gdrop__mn" id="dd-docs" hidden><a href="https://itline-kodama.github.io/glavis-migration-dashboard/sitemap/"><b>サイトマップ</b><span>移行後の想定構成（叩き台）</span></a><a href="https://itline-kodama.github.io/glavis-migration-dashboard/navdemo/"><b>ナビ比較</b><span>グローバルナビ A案／B案</span></a><a href="https://itline-kodama.github.io/glavis-migration-dashboard/susdemo/"><b>サステナ</b><span>掲載内容と配置のご提案</span></a></span></span></span></div></div>
 <div class="wrap">
   <header>
     <h1><span class="sub">GLAVIS GROUP / SITE MIGRATION</span>
