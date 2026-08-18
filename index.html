@@ -140,6 +140,10 @@
         border-radius:12px;padding:6px;box-shadow:var(--shadow);
         display:flex;flex-direction:column;gap:2px}
   .gdrop__mn[hidden]{display:none}
+  /* ボタンとパネルの隙間を透明の帯で埋める。ここを通る間に閉じないようにする */
+  .gdrop__mn::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}
+  /* 当たり判定を広げ、少し外れた程度では閉じないようにする */
+  .gdrop{padding:4px 0}
   .gdrop__mn a{display:block;padding:8px 12px;border-radius:8px;text-decoration:none;
         color:var(--ink)}
   .gdrop__mn a:hover{background:var(--line-soft)}
@@ -876,36 +880,65 @@ document.querySelectorAll('.cp').forEach(function(b){
 })();
 
 (function(){
-  // ページ切替のドロップダウン。クリックで開閉し、外側クリック・Escで閉じる
+  // ページ切替のドロップダウン。
+  //  ・ボタンを押して開いた場合は「固定」され、マウスを離しても閉じない
+  //  ・マウスを乗せただけで開いた場合は、離れてから少し待って閉じる
+  //    （ボタンとパネルの間を通る間に閉じてしまわないよう、余裕を持たせる）
+  //  ・外側クリック / Esc / 別のメニューを開く、で閉じる
   var drops = [].slice.call(document.querySelectorAll('.gdrop'));
-  function closeAll(except){
-    drops.forEach(function(d){
-      if (d === except) return;
-      d.querySelector('.gdrop__bt').setAttribute('aria-expanded','false');
-      d.querySelector('.gdrop__mn').hidden = true;
-    });
-  }
+  var CLOSE_DELAY = 500;
+
   drops.forEach(function(d){
-    var bt = d.querySelector('.gdrop__bt'), mn = d.querySelector('.gdrop__mn');
-    bt.addEventListener('click', function(e){
+    d._bt = d.querySelector('.gdrop__bt');
+    d._mn = d.querySelector('.gdrop__mn');
+    d._pinned = false;
+    d._timer = null;
+  });
+
+  function open(d, pinned){
+    clearTimeout(d._timer);
+    drops.forEach(function(o){ if (o !== d) close(o); });
+    d._bt.setAttribute('aria-expanded', 'true');
+    d._mn.hidden = false;
+    if (pinned) d._pinned = true;
+  }
+  function close(d){
+    clearTimeout(d._timer);
+    d._bt.setAttribute('aria-expanded', 'false');
+    d._mn.hidden = true;
+    d._pinned = false;
+  }
+  function closeAll(){ drops.forEach(close); }
+  function isOpen(d){ return !d._mn.hidden; }
+
+  drops.forEach(function(d){
+    // クリック（タッチも同じ）で開閉。開いた状態は固定される
+    d._bt.addEventListener('click', function(e){
       e.stopPropagation();
-      var open = bt.getAttribute('aria-expanded') === 'true';
-      closeAll(d);
-      bt.setAttribute('aria-expanded', String(!open));
-      mn.hidden = open;
+      if (isOpen(d) && d._pinned) { close(d); } else { open(d, true); }
     });
-    // マウス操作では、乗せるだけで開く方が速い
+
+    // ホバーは「開く」だけ担当。閉じるのは離れてから遅れて
     d.addEventListener('mouseenter', function(){
-      if (window.matchMedia('(hover:hover)').matches){ closeAll(d);
-        bt.setAttribute('aria-expanded','true'); mn.hidden = false; }
+      if (!window.matchMedia('(hover:hover)').matches) return;
+      open(d, false);
     });
     d.addEventListener('mouseleave', function(){
-      if (window.matchMedia('(hover:hover)').matches){
-        bt.setAttribute('aria-expanded','false'); mn.hidden = true; }
+      if (!window.matchMedia('(hover:hover)').matches) return;
+      if (d._pinned) return;                 // 固定中は閉じない
+      clearTimeout(d._timer);
+      d._timer = setTimeout(function(){ close(d); }, CLOSE_DELAY);
     });
+    // 戻ってきたら閉じるのを取り消す
+    d.addEventListener('mousemove', function(){ clearTimeout(d._timer); });
+    // リンクを選んだら閉じる（同じページ内の遷移でも見た目が残らないように）
+    d._mn.addEventListener('click', function(e){ e.stopPropagation(); });
   });
-  document.addEventListener('click', function(){ closeAll(null); });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeAll(null); });
+
+  document.addEventListener('click', closeAll);
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') { closeAll(); }
+  });
 })();
 </script>
 

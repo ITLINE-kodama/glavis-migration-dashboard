@@ -130,6 +130,10 @@
         border-radius:12px;padding:6px;box-shadow:var(--shadow);
         display:flex;flex-direction:column;gap:2px}
   .gdrop__mn[hidden]{display:none}
+  /* ボタンとパネルの隙間を透明の帯で埋める。ここを通る間に閉じないようにする */
+  .gdrop__mn::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}
+  /* 当たり判定を広げ、少し外れた程度では閉じないようにする */
+  .gdrop{padding:4px 0}
   .gdrop__mn a{display:block;padding:8px 12px;border-radius:8px;text-decoration:none;
         color:var(--ink)}
   .gdrop__mn a:hover{background:var(--line-soft)}
